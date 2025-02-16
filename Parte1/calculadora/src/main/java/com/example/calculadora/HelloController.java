@@ -20,8 +20,8 @@ public class HelloController {
 
     private ArrayList<String> numeros = new ArrayList<>();
     private ArrayList<String> opers = new ArrayList<>();
-    private int numero1 = 0;
-    private int numero2 = 0;
+    private double numero1 = 0;
+    private double numero2 = 0;
     private String operacion = "";
 
     {
@@ -81,24 +81,35 @@ public class HelloController {
     }
 
     public void onClickResultado(ActionEvent actionEvent) {
-        int resultado = 0;
+        double resultado = 0;
 
-        switch (operacion) {
-            case "+":
-                resultado = numero1 + numero2;
-                break;
-            case "-":
-                resultado = numero1 - numero2;
-                break;
-            case "X":
-                resultado = numero1 * numero2;
-                break;
-            case "/":
-                resultado = numero1 / numero2;
-                break;
+
+        //evaluacion de si es division por 0
+        if (operacion.equals("")) {
+            Pantalla.setText(Pantalla.getText());
+        } else if (numero2 == 0) {
+            Pantalla.setText("ERROR");
+        } else {
+
+            switch (operacion) {
+                case "+":
+                    resultado = numero1 + numero2;
+                    break;
+                case "-":
+                    resultado = numero1 - numero2;
+                    break;
+                case "X":
+                    resultado = numero1 * numero2;
+                    break;
+                case "/":
+                    resultado = numero1 / numero2;
+                    break;
+            }
+            int resultadoInt = (int) resultado;
+            Pantalla.setText(resultadoInt + "");
+
+            operacion = "";
         }
-        Pantalla.setText(resultado + "");
-        operacion = "";
     }
 
     public void onClickBorrarHistorial(ActionEvent actionEvent) {
@@ -111,9 +122,13 @@ public class HelloController {
     @FXML
     //Numeros
     private void onClickNueve(ActionEvent evt) {
-        Pantalla.setText("9");
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "9");
+        } else{
+            Pantalla.setText("9");
+        }
 
-        if(!Operaciones.getText().isEmpty()){
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "9");
         }
 
@@ -126,9 +141,12 @@ public class HelloController {
     }
 
     public void onClickOcho(ActionEvent actionEvent) {
-        Pantalla.setText("8");
-
-        if(!Operaciones.getText().isEmpty()){
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "8");
+        } else{
+            Pantalla.setText("8");
+        }
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "8");
         }
 
@@ -141,9 +159,12 @@ public class HelloController {
     }
 
     public void onClickSiete(ActionEvent actionEvent) {
-        Pantalla.setText("7");
-
-        if(!Operaciones.getText().isEmpty()){
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "7");
+        } else{
+            Pantalla.setText("7");
+        }
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "7");
         }
 
@@ -156,9 +177,13 @@ public class HelloController {
     }
 
     public void onClickSeis(ActionEvent actionEvent) {
-        Pantalla.setText("6");
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "6");
+        } else{
+            Pantalla.setText("6");
+        }
 
-        if(!Operaciones.getText().isEmpty()){
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "6");
         }
 
@@ -171,9 +196,13 @@ public class HelloController {
     }
 
     public void onClickCinco(ActionEvent actionEvent) {
-        Pantalla.setText("5");
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "5");
+        } else{
+            Pantalla.setText("5");
+        }
 
-        if(!Operaciones.getText().isEmpty()){
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "5");
         }
 
@@ -186,10 +215,13 @@ public class HelloController {
     }
 
     public void onClickCuatro(ActionEvent actionEvent) {
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "4");
+        } else{
+            Pantalla.setText("4");
+        }
 
-        Pantalla.setText("4");
-
-        if(!Operaciones.getText().isEmpty()){
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "4");
         }
 
@@ -202,10 +234,13 @@ public class HelloController {
     }
 
     public void onClickTres(ActionEvent actionEvent) {
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "3");
+        } else{
+            Pantalla.setText("3");
+        }
 
-        Pantalla.setText("3");
-
-        if(!Operaciones.getText().isEmpty()){
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "3");
         }
 
@@ -218,10 +253,13 @@ public class HelloController {
     }
 
     public void onClickDos(ActionEvent actionEvent) {
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "2");
+        } else{
+            Pantalla.setText("2");
+        }
 
-        Pantalla.setText("2");
-
-        if(!Operaciones.getText().isEmpty()){
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "2");
         }
 
@@ -234,9 +272,13 @@ public class HelloController {
     }
 
     public void onClickUno(ActionEvent actionEvent) {
-        Pantalla.setText("1");
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "1");
+        } else{
+            Pantalla.setText("1");
+        }
 
-        if(!Operaciones.getText().isEmpty()){
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "1");
         }
 
@@ -249,9 +291,13 @@ public class HelloController {
     }
 
     public void onClickCero(ActionEvent actionEvent) {
-        Pantalla.setText("0");
+        if(numDecimal()){
+            Pantalla.setText(Pantalla.getText() + "0");
+        } else{
+            Pantalla.setText("0");
+        }
 
-        if(!Operaciones.getText().isEmpty()){
+        if (!Operaciones.getText().isEmpty()) {
             Operaciones.setText(Operaciones.getText() + "0");
         }
 
@@ -265,5 +311,11 @@ public class HelloController {
 
     public void onClickPunto(ActionEvent actionEvent) {
         Pantalla.setText(Pantalla.getText() + ".");
+    }
+    private boolean numDecimal(){
+        if(Pantalla.getText().contains(".")){
+            return true;
+        }
+        return false;
     }
 }
