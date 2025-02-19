@@ -9,18 +9,47 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="549.0" prefWidth="327.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.CalculadoraController">
+<VBox id="Calculadora" alignment="CENTER" prefHeight="593.0" prefWidth="393.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.CalculadoraController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <Pane prefHeight="703.0" prefWidth="298.0">
+      <Pane prefHeight="554.0" prefWidth="379.0">
          <children>
-            <HBox layoutX="12.0" layoutY="190.0" prefHeight="334.0" prefWidth="263.0" spacing="10.0">
+            <HBox layoutX="12.0" layoutY="190.0" prefHeight="350.0" prefWidth="337.0" spacing="10.0">
                <children>
+                  <VBox prefHeight="350.0" prefWidth="80.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="btn_Memoria" mnemonicParsing="false" onAction="#onClickSumarMemoria" prefHeight="56.0" prefWidth="70.0" text="M+">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_borrarMemoria" mnemonicParsing="false" onAction="#onClickBorrarMemoria" prefHeight="56.0" prefWidth="70.0" text="MC">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_recuperarMemoria" mnemonicParsing="false" onAction="#onClickRecuperarMemoria" prefHeight="56.0" prefWidth="70.0" text="MR">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_cambiarSigno" mnemonicParsing="false" onAction="#onClickCambiarSigno" prefHeight="56.0" prefWidth="70.0" text="+/-">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btn_Cero11" mnemonicParsing="false" onAction="#onClickCero" prefHeight="56.0" prefWidth="70.0" text="\$">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
                   <VBox prefHeight="56.0" prefWidth="60.0" spacing="10.0">
                      <children>
-                        <Button fx:id="btn_Borrar" mnemonicParsing="false" onAction="#onClickBorrar" prefHeight="56.0" prefWidth="60.0" text="C">
+                        <Button fx:id="btn_BorrarTodo" mnemonicParsing="false" onAction="#onClickBorrarTodo" prefHeight="56.0" prefWidth="60.0" text="A">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -40,7 +69,7 @@
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="60.0" text="\$">
+                        <Button fx:id="btn_parentesis" mnemonicParsing="false" onAction="#onClickParentesis" prefHeight="50.0" prefWidth="60.0" text="()">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -49,7 +78,7 @@
                   </VBox>
                   <VBox prefHeight="56.0" prefWidth="60.0" spacing="10.0">
                      <children>
-                        <Button fx:id="btn_BorrarHistorial" mnemonicParsing="false" onAction="#onClickBorrarHistorial" prefHeight="56.0" prefWidth="60.0" text="A">
+                        <Button fx:id="btn_Borrar" mnemonicParsing="false" onAction="#onClickBorrar" prefHeight="56.0" prefWidth="60.0" text="C">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -78,7 +107,7 @@
                   </VBox>
                   <VBox prefHeight="56.0" prefWidth="65.0" spacing="10.0">
                      <children>
-                        <Button fx:id="btn_porcentaje" mnemonicParsing="false" onAction="#onClickPorcentaje" prefHeight="56.0" prefWidth="60.0" text="\%">
+                        <Button fx:id="btn_borrarUno" mnemonicParsing="false" onAction="#onClickBorrarUno" prefHeight="56.0" prefWidth="60.0" text="B">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -105,7 +134,7 @@
                         </Button>
                      </children>
                   </VBox>
-                  <VBox prefHeight="56.0" prefWidth="60.0" spacing="10.0">
+                  <VBox prefHeight="56.0" prefWidth="78.0" spacing="10.0">
                      <children>
                         <Button fx:id="btn_Dividir" mnemonicParsing="false" onAction="#onClickDividir" prefHeight="50.0" prefWidth="60.0" text="/">
                            <font>
@@ -136,15 +165,15 @@
                   </VBox>
                </children>
             </HBox>
-            <Separator layoutX="14.0" layoutY="162.0" prefHeight="4.0" prefWidth="263.0" />
-            <Label fx:id="Pantalla" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="24.0" prefHeight="117.0" prefWidth="247.0" text="s" textAlignment="RIGHT">
+            <Separator layoutX="14.0" layoutY="162.0" prefHeight="0.0" prefWidth="324.0" />
+            <Label fx:id="Pantalla" alignment="CENTER_RIGHT" layoutX="15.0" layoutY="51.0" prefHeight="98.0" prefWidth="324.0" textAlignment="RIGHT">
                <font>
-                  <Font size="47.0" />
+                  <Font size="55.0" />
                </font>
             </Label>
-            <Label fx:id="Operaciones" layoutX="231.0" layoutY="24.0">
+            <Label fx:id="Operaciones" alignment="CENTER_RIGHT" layoutX="19.0" layoutY="24.0" prefHeight="27.0" prefWidth="308.0" textAlignment="RIGHT">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
          </children>

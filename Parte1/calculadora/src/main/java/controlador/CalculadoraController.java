@@ -22,7 +22,6 @@ public class CalculadoraController {
     private double primerNumero = 0;
     private boolean esOperacionRealizada = false;
     private boolean esperandoSegundoOperando = false;
-    // Guarda la parte ya ingresada de la operación (por ejemplo, "4+")
     private String historialOperacion = "";
 
     private ModeloCalculadora modelo = new ModeloCalculadora();
@@ -58,12 +57,12 @@ public class CalculadoraController {
      */
     @FXML
     public void onClickParentesis() {
-        String current = Pantalla.getText();
+        String pantalla = Pantalla.getText();
 
         // Si ya se inició el número negativo y no está cerrado, permitimos cerrar
-        if (current.startsWith("(-") && !current.endsWith(")")) {
-            if (current.length() > 2) {  // Debe haber al menos un dígito después de "(-"
-                Pantalla.setText(current + ")");
+        if (pantalla.startsWith("(-") && !pantalla.endsWith(")")) {
+            if (pantalla.length() > 2) {  // Debe haber al menos un dígito después de "(-"
+                Pantalla.setText(pantalla + ")");
                 Operaciones.setText(historialOperacion + Pantalla.getText());
             } else {
                 mostrarAdvertencia("Ingrese el número negativo antes de cerrar el paréntesis.");
@@ -73,7 +72,7 @@ public class CalculadoraController {
 
         // Si se está en modo de espera para el segundo operando, permitimos abrir el paréntesis
         if (esperandoSegundoOperando) {
-            if (current.isEmpty() || current.equals("0")) {
+            if (pantalla.isEmpty() || pantalla.equals("0")) {
                 Pantalla.setText("(-");
                 Operaciones.setText(historialOperacion + "(-");
             } else {
