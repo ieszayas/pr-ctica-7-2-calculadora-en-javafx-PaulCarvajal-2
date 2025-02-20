@@ -1,39 +1,25 @@
 package controlador;
 
 public class ModeloCalculadora {
-    private int numero1;
-    private int numero2;
-    private int resultado;
 
-    private String operacion = "";
-
-    public ModeloCalculadora(){
-
+    public double calcular(double num1, double num2, String operador) {
+        switch (operador) {
+            case "+": return num1 + num2;
+            case "-": return num1 - num2;
+            case "X": return num1 * num2;
+            case "/":
+                if (num2 == 0) return Double.NaN; // Evitar división por cero
+                return num1 / num2;
+            case "%": return num1 * num2 / 100;
+            default: return Double.NaN;
+        }
     }
 
-    public int getNumero1() {
-        return numero1;
-    }
-
-    public int getNumero2() {
-        return numero2;
-    }
-
-    public int getResultado() {
-        return resultado;
-    }
-
-    public void setNumero1(int numero1) {
-        this.numero1 = numero1;
-    }
-
-    public void setNumero2(int numero2) {
-        this.numero2 = numero2;
-    }
-
-    public void setOperacion(String operacion) {
-        this.operacion = operacion;
-    }
-
-
+    public double convertirNumero(String texto) {
+        try {
+            return Double.parseDouble(texto);
+        } catch (NumberFormatException e) {
+            return Double.NaN;
+ }
+}
 }

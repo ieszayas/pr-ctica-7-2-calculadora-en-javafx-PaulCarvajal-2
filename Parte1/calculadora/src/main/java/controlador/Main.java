@@ -13,6 +13,9 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/vista/vista.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Operaciones sencillas");
+
+        // Cargar el archivo CSS
+        scene.getStylesheets().add(getClass().getResource("/vista/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

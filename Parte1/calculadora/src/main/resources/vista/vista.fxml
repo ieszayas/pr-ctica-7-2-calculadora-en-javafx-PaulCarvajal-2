@@ -40,7 +40,7 @@
                               <Font size="24.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Cero11" mnemonicParsing="false" onAction="#onClickCero" prefHeight="56.0" prefWidth="70.0" text="\$">
+                        <Button fx:id="btn_Cero11" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="56.0" prefWidth="70.0" text="\$">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -54,17 +54,17 @@
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Siete" mnemonicParsing="false" onAction="#onClickSiete" prefHeight="50.0" prefWidth="60.0" text="7">
+                        <Button fx:id="btn_Siete" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="50.0" prefWidth="60.0" text="7">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Cuatro" mnemonicParsing="false" onAction="#onClickCuatro" prefHeight="50.0" prefWidth="60.0" text="4">
+                        <Button fx:id="btn_Cuatro" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="50.0" prefWidth="60.0" text="4">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Uno" mnemonicParsing="false" onAction="#onClickUno" prefHeight="50.0" prefWidth="60.0" text="1">
+                        <Button fx:id="btn_Uno" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="50.0" prefWidth="60.0" text="1">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -83,22 +83,22 @@
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Ocho" mnemonicParsing="false" onAction="#onClickOcho" prefHeight="50.0" prefWidth="60.0" text="8">
+                        <Button fx:id="btn_Ocho" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="50.0" prefWidth="60.0" text="8">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Cinco" mnemonicParsing="false" onAction="#onClickCinco" prefHeight="50.0" prefWidth="60.0" text="5">
+                        <Button fx:id="btn_Cinco" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="50.0" prefWidth="60.0" text="5">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Dos" mnemonicParsing="false" onAction="#onClickDos" prefHeight="50.0" prefWidth="60.0" text="2">
+                        <Button fx:id="btn_Dos" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="50.0" prefWidth="60.0" text="2">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Cero" mnemonicParsing="false" onAction="#onClickCero" prefHeight="50.0" prefWidth="60.0" text="0">
+                        <Button fx:id="btn_Cero" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="50.0" prefWidth="60.0" text="0">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -107,22 +107,22 @@
                   </VBox>
                   <VBox prefHeight="56.0" prefWidth="65.0" spacing="10.0">
                      <children>
-                        <Button fx:id="btn_borrarUno" mnemonicParsing="false" onAction="#onClickBorrarUno" prefHeight="56.0" prefWidth="60.0" text="B">
+                        <Button fx:id="btn_borrarUno" mnemonicParsing="false" onAction="#onClickBorrar" prefHeight="56.0" prefWidth="60.0" text="B">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Nueve" mnemonicParsing="false" onAction="#onClickNueve" prefHeight="56.0" prefWidth="60.0" text="9">
+                        <Button fx:id="btn_Nueve" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="56.0" prefWidth="60.0" text="9">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Seis" mnemonicParsing="false" onAction="#onClickSeis" prefHeight="56.0" prefWidth="60.0" text="6">
+                        <Button fx:id="btn_Seis" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="56.0" prefWidth="60.0" text="6">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Tres" mnemonicParsing="false" onAction="#onClickTres" prefHeight="56.0" prefWidth="60.0" text="3">
+                        <Button fx:id="btn_Tres" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="56.0" prefWidth="60.0" text="3">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -136,27 +136,27 @@
                   </VBox>
                   <VBox prefHeight="56.0" prefWidth="78.0" spacing="10.0">
                      <children>
-                        <Button fx:id="btn_Dividir" mnemonicParsing="false" onAction="#onClickDividir" prefHeight="50.0" prefWidth="60.0" text="/">
+                        <Button fx:id="btn_Dividir" mnemonicParsing="false" onAction="#onClickOperacion" prefHeight="50.0" prefWidth="60.0" text="/">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Multiplicar" mnemonicParsing="false" onAction="#onClickMultiplicar" prefHeight="50.0" prefWidth="60.0" text="X">
+                        <Button fx:id="btn_Multiplicar" mnemonicParsing="false" onAction="#onClickOperacion" prefHeight="50.0" prefWidth="60.0" text="X">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Restar" mnemonicParsing="false" onAction="#onClickRestar" prefHeight="50.0" prefWidth="60.0" text="-">
+                        <Button fx:id="btn_Restar" mnemonicParsing="false" onAction="#onClickOperacion" prefHeight="50.0" prefWidth="60.0" text="-">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Sumar" mnemonicParsing="false" onAction="#onClickSumar" prefHeight="50.0" prefWidth="60.0" text="+">
+                        <Button fx:id="btn_Sumar" mnemonicParsing="false" onAction="#onClickOperacion" prefHeight="50.0" prefWidth="60.0" text="+">
                            <font>
                               <Font size="26.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btn_Resultado" mnemonicParsing="false" onAction="#onClickResultado" prefHeight="50.0" prefWidth="60.0" text="=">
+                        <Button fx:id="btn_Resultado" mnemonicParsing="false" onAction="#onClickCalcular" prefHeight="50.0" prefWidth="60.0" text="=">
                            <font>
                               <Font size="26.0" />
                            </font>

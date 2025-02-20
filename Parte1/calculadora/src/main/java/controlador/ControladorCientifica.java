@@ -1,16 +1,16 @@
 package controlador;
 
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-import javafx.application.Platform;
+import javafx.scene.control.Label;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
-public class CalculadoraController {
+public class ControladorCientifica {
     private String memoria = "";
     private boolean usandoMemoria = false;
     @FXML
@@ -253,18 +253,19 @@ public class CalculadoraController {
             Pantalla.setText("");
         }
     }
+
     @FXML
     public void onClickCambiarSigno(ActionEvent event) {
         String current = Pantalla.getText().trim();
 
         // Si el display está vacío, no hacemos nada
-        if(current.isEmpty()) {
+        if (current.isEmpty()) {
             return;
         }
 
         String parsedNumber = current;
         // Si el número está en formato con paréntesis, por ejemplo "(-3)", lo convertimos a "-3"
-        if(current.startsWith("(-") && current.endsWith(")")) {
+        if (current.startsWith("(-") && current.endsWith(")")) {
             parsedNumber = "-" + current.substring(2, current.length() - 1);
         }
 
@@ -280,7 +281,7 @@ public class CalculadoraController {
             // Por ejemplo, si el historial contiene el número actual, reemplázalo.
             // En este ejemplo se deja sin modificar el label_historial.
 
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             mostrarAdvertencia("No se puede cambiar el signo");
         }
     }
@@ -302,6 +303,7 @@ public class CalculadoraController {
             delay.play();
         });
     }
+
     @FXML
     public void onClickSumarMemoria(ActionEvent event) {
         String currentText = Pantalla.getText().trim();
@@ -338,6 +340,7 @@ public class CalculadoraController {
             mostrarAdvertencia("Error al procesar la memoria.");
         }
     }
+
     @FXML
     public void onClickBorrarMemoria(ActionEvent event) {
         memoria = "0";
@@ -365,6 +368,82 @@ public class CalculadoraController {
         }
     }
 
+        // Instancia de la clase que contiene los métodos científicos
+        private Cientifica cienti = new Cientifica();
 
 
+        /**
+         * Método para calcular el seno del ángulo ingresado (en grados).
+         */
+        @FXML
+        public void onClickSeno() {
+            try {
+                double angulo = Double.parseDouble(txtEntrada.getText());
+                double resultado = cienti.calcularSeno(angulo);
+                txtResultado.setText(CalculadoraUtils.formatResult(resultado));
+            } catch (NumberFormatException e) {
+                txtResultado.setText("Error: Entrada inválida");
+            }
+        }
+
+        /**
+         * Método para calcular el coseno del ángulo ingresado (en grados).
+         */
+        @FXML
+        public void onClickCoseno() {
+            try {
+                double angulo = Double.parseDouble(txtEntrada.getText());
+                double resultado = cienti.calcularCoseno(angulo);
+                txtResultado.setText(CalculadoraUtils.formatResult(resultado));
+            } catch (NumberFormatException e) {
+                txtResultado.setText("Error: Entrada inválida");
+            }
+        }
+
+        /**
+         * Método para calcular la tangente del ángulo ingresado (en grados).
+         */
+        @FXML
+        public void onClickTangente() {
+            try {
+                double angulo = Double.parseDouble(txtEntrada.getText());
+                double resultado = cienti.calcularTangente(angulo);
+                txtResultado.setText(Formateo.formatResult(resultado));
+            } catch (NumberFormatException e) {
+                txtResultado.setText("Error: Entrada inválida");
+            }
+        }
+
+        /**
+         * Método para calcular la exponencial de un número (e^x).
+         */
+        @FXML
+        public void onClickExponencial() {
+            try {
+                double exponente = Double.parseDouble(txtEntrada.getText());
+                double resultado = cienti.calcularExponencial(exponente);
+                txtResultado.setText(Formateo.formatResult(resultado));
+            } catch (NumberFormatException e) {
+                txtResultado.setText("Error: Entrada inválida");
+            }
+        }
+
+        /**
+         * Método para calcular el logaritmo natural (ln) del valor ingresado.
+         */
+        @FXML
+        public void onClickLogaritmo() {
+            try {
+                double valor = Double.parseDouble(txtEntrada.getText());
+                double resultado = cienti.calcularLogaritmo(valor);
+                txtResultado.setText(Formateo.formatResult(resultado));
+            } catch (NumberFormatException e) {
+                txtResultado.setText("Error: Entrada inválida");
+            } catch (IllegalArgumentException e) {
+                txtResultado.setText("Error: " + e.getMessage());
+            }
+        }
+
+       
+    }
 }
