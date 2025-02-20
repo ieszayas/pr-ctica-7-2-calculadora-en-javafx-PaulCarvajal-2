@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorMain">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorMain">
    <children>
-      <BorderPane fx:id="borderPane" layoutX="21.0" layoutY="14.0" prefHeight="370.0" prefWidth="559.0">
+      <BorderPane fx:id="borderPane">
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
