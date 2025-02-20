@@ -10,13 +10,13 @@ import java.io.IOException;
 
 public class ControladorMain {
     @FXML
-    private BorderPane rootPane;
+    private BorderPane borderPane;
 
     @FXML
     public void cargarCalculadoraNormal() {
         try {
-            Parent normal = FXMLLoader.load(getClass().getResource("calculadora.fxml"));
-            rootPane.setCenter(normal);
+            Parent normal = FXMLLoader.load(getClass().getResource("/vista/vista.fxml"));
+            borderPane.setCenter(normal);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -25,8 +25,8 @@ public class ControladorMain {
     @FXML
     public void cargarCalculadoraCientifica() {
         try {
-            Parent cientifica = FXMLLoader.load(getClass().getResource("calculadoraCientifica.fxml"));
-            rootPane.setCenter(cientifica);
+            Parent cientifica = FXMLLoader.load(getClass().getResource("/vista/Cientifica.fxml"));
+            borderPane.setCenter(cientifica);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.Main">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorMain">
    <children>
       <BorderPane fx:id="borderPane" layoutX="21.0" layoutY="14.0" prefHeight="370.0" prefWidth="559.0">
          <top>
@@ -15,8 +14,8 @@
               <menus>
                 <Menu fx:id="menuModo" mnemonicParsing="false" text="Modo">
                   <items>
-                        <MenuItem fx:id="menuItemCientifica" mnemonicParsing="false" text="Cientifica" />
-                    <MenuItem fx:id="menuItemCalculadora" mnemonicParsing="false" text="Calculadora" />
+                        <MenuItem fx:id="menuItemCientifica" mnemonicParsing="false" onAction="#cargarCalculadoraCientifica" text="Cientifica" />
+                    <MenuItem fx:id="menuItemCalculadora" mnemonicParsing="false" onAction="#cargarCalculadoraNormal" text="Calculadora" />
                   </items>
                 </Menu>
                 <Menu fx:id="menuEdicion" mnemonicParsing="false" text="Edicion">

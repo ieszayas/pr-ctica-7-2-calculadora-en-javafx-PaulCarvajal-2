@@ -9,6 +9,8 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import modelo.Formateo;
+import modelo.ModeloCalculadora;
 
 public class CalculadoraController {
     private String memoria = "";

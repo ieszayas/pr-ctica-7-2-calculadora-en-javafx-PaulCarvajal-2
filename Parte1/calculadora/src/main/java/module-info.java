@@ -6,4 +6,6 @@ module com.example.calculadora {
 
     opens controlador to javafx.fxml;
     exports controlador;
+    exports modelo;
+    opens modelo to javafx.fxml;
 }

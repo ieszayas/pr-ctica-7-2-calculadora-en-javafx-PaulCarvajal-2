@@ -9,6 +9,9 @@ import javafx.scene.control.Label;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import modelo.Cientifica;
+import modelo.Formateo;
+import modelo.ModeloCalculadora;
 
 public class ControladorCientifica {
     private String memoria = "";
@@ -25,6 +28,12 @@ public class ControladorCientifica {
     private String historialOperacion = "";
 
     private ModeloCalculadora modelo = new ModeloCalculadora();
+
+    // Instancia de la clase que contiene los métodos científicos
+    private Cientifica cienti = new Cientifica();
+
+
+
 
     @FXML
     public void initialize() {
@@ -368,9 +377,6 @@ public class ControladorCientifica {
         }
     }
 
-        // Instancia de la clase que contiene los métodos científicos
-        private Cientifica cienti = new Cientifica();
-
 
         /**
          * Método para calcular el seno del ángulo ingresado (en grados).
@@ -378,11 +384,11 @@ public class ControladorCientifica {
         @FXML
         public void onClickSeno() {
             try {
-                double angulo = Double.parseDouble(txtEntrada.getText());
+                double angulo = Double.parseDouble(Operaciones.getText());
                 double resultado = cienti.calcularSeno(angulo);
-                txtResultado.setText(CalculadoraUtils.formatResult(resultado));
+                Pantalla.setText(Formateo.formatResult(resultado));
             } catch (NumberFormatException e) {
-                txtResultado.setText("Error: Entrada inválida");
+                Pantalla.setText("Error: Entrada inválida");
             }
         }
 
@@ -392,11 +398,11 @@ public class ControladorCientifica {
         @FXML
         public void onClickCoseno() {
             try {
-                double angulo = Double.parseDouble(txtEntrada.getText());
+                double angulo = Double.parseDouble(Operaciones.getText());
                 double resultado = cienti.calcularCoseno(angulo);
-                txtResultado.setText(CalculadoraUtils.formatResult(resultado));
+                Pantalla.setText(Formateo.formatResult(resultado));
             } catch (NumberFormatException e) {
-                txtResultado.setText("Error: Entrada inválida");
+                Pantalla.setText("Error: Entrada inválida");
             }
         }
 
@@ -406,11 +412,11 @@ public class ControladorCientifica {
         @FXML
         public void onClickTangente() {
             try {
-                double angulo = Double.parseDouble(txtEntrada.getText());
+                double angulo = Double.parseDouble(Operaciones.getText());
                 double resultado = cienti.calcularTangente(angulo);
-                txtResultado.setText(Formateo.formatResult(resultado));
+                Pantalla.setText(Formateo.formatResult(resultado));
             } catch (NumberFormatException e) {
-                txtResultado.setText("Error: Entrada inválida");
+                Pantalla.setText("Error: Entrada inválida");
             }
         }
 
@@ -420,11 +426,11 @@ public class ControladorCientifica {
         @FXML
         public void onClickExponencial() {
             try {
-                double exponente = Double.parseDouble(txtEntrada.getText());
+                double exponente = Double.parseDouble(Operaciones.getText());
                 double resultado = cienti.calcularExponencial(exponente);
-                txtResultado.setText(Formateo.formatResult(resultado));
+                Pantalla.setText(Formateo.formatResult(resultado));
             } catch (NumberFormatException e) {
-                txtResultado.setText("Error: Entrada inválida");
+                Pantalla.setText("Error: Entrada inválida");
             }
         }
 
@@ -434,16 +440,16 @@ public class ControladorCientifica {
         @FXML
         public void onClickLogaritmo() {
             try {
-                double valor = Double.parseDouble(txtEntrada.getText());
+                double valor = Double.parseDouble(Operaciones.getText());
                 double resultado = cienti.calcularLogaritmo(valor);
-                txtResultado.setText(Formateo.formatResult(resultado));
+                Pantalla.setText(Formateo.formatResult(resultado));
             } catch (NumberFormatException e) {
-                txtResultado.setText("Error: Entrada inválida");
+                Pantalla.setText("Error: Entrada inválida");
             } catch (IllegalArgumentException e) {
-                txtResultado.setText("Error: " + e.getMessage());
+                Pantalla.setText("Error: " + e.getMessage());
             }
         }
 
        
     }
-}
+
