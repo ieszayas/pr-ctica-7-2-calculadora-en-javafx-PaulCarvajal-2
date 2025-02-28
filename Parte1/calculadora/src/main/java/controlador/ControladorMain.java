@@ -1,6 +1,7 @@
 package controlador;
 
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,7 +19,7 @@ public class ControladorMain implements Initializable {
     @FXML
     public void cargarCalculadoraNormal() {
         try {
-            Parent normal = FXMLLoader.load(getClass().getResource("/vista/vista.fxml"));
+            Parent normal = FXMLLoader.load(getClass().getResource("/vista/Calculadora.fxml"));
             borderPane.setCenter(normal);
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,8 +36,19 @@ public class ControladorMain implements Initializable {
         }
     }
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cargarCalculadoraNormal();
+    }
+
+    public void cargarConversor(ActionEvent actionEvent) {
+        try {
+            Parent conversor = FXMLLoader.load(getClass().getResource("/vista/Conversor.fxml"));
+            borderPane.setCenter(conversor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

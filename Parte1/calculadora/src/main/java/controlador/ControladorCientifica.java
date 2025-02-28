@@ -17,14 +17,16 @@ public class ControladorCientifica {
     private String memoria = "";
     private boolean usandoMemoria = false;
     @FXML
-    private Label Pantalla;
+    private Label pantalla;
     @FXML
-    private Label Operaciones; // Label para mostrar el historial
+    private Label operaciones; // Label para mostrar el historial
 
     private String operador = "";
     private double primerNumero = 0;
     private boolean esOperacionRealizada = false;
     private boolean esperandoSegundoOperando = false;
+    private boolean operacionLogaritmo = false;
+
     private String historialOperacion = "";
 
     private ModeloCalculadora modelo = new ModeloCalculadora();
@@ -37,25 +39,25 @@ public class ControladorCientifica {
 
     @FXML
     public void initialize() {
-        Pantalla.setText("");
-        Operaciones.setText("");
+        pantalla.setText("");
+        operaciones.setText("");
     }
 
     @FXML
     protected void onClickCalcular() {
-        String current = Pantalla.getText().trim();
+        String current = pantalla.getText().trim();
         if (current.isEmpty()) {
             mostrarAdvertencia("No hay número para calcular");
             return;
         }
         // Si no se ha seleccionado ningún operador, se muestra el mismo número en el historial con '='
         if (operador.isEmpty()) {
-            Operaciones.setText(current + "=");
+            operaciones.setText(current + "=");
             // Se mantiene el número en el display
             return;
         }
         // En caso de que se haya seleccionado un operador, se actualiza el historial y se realiza la operación
-        Operaciones.setText(historialOperacion + current + "=");
+        operaciones.setText(historialOperacion + current + "=");
         realizarOperacion();
     }
 
@@ -66,45 +68,52 @@ public class ControladorCientifica {
      */
     @FXML
     public void onClickParentesis() {
-        String pantalla = Pantalla.getText();
-
-        // Si ya se inició el número negativo y no está cerrado, permitimos cerrar
+        String pantalla = this.pantalla.getText();
+        // Si se está realizando una operación unaria (log, tan, sin o cos) y no se ha cerrado, añade ")"
+        if ((pantalla.startsWith("log(") || pantalla.startsWith("tan(") ||
+                pantalla.startsWith("sin(") || pantalla.startsWith("cos("))
+                && !pantalla.endsWith(")")) {
+            this.pantalla.setText(pantalla + ")");
+            operaciones.setText(this.pantalla.getText());
+            return;
+        }
+        // Manejo para números negativos con paréntesis
         if (pantalla.startsWith("(-") && !pantalla.endsWith(")")) {
-            if (pantalla.length() > 2) {  // Debe haber al menos un dígito después de "(-"
-                Pantalla.setText(pantalla + ")");
-                Operaciones.setText(historialOperacion + Pantalla.getText());
+            if (pantalla.length() > 2) {
+                this.pantalla.setText(pantalla + ")");
+                operaciones.setText(historialOperacion + this.pantalla.getText());
             } else {
                 mostrarAdvertencia("Ingrese el número negativo antes de cerrar el paréntesis.");
             }
             return;
         }
-
-        // Si se está en modo de espera para el segundo operando, permitimos abrir el paréntesis
+        // Si se está esperando el segundo operando, permitimos abrir el paréntesis para un negativo
         if (esperandoSegundoOperando) {
             if (pantalla.isEmpty() || pantalla.equals("0")) {
-                Pantalla.setText("(-");
-                Operaciones.setText(historialOperacion + "(-");
+                this.pantalla.setText("(-");
+                operaciones.setText(historialOperacion + "(-");
             } else {
                 mostrarAdvertencia("El número ya está iniciado. Para números negativos, inícielo con '(-'.");
             }
         } else {
-            // En cualquier otro caso (por ejemplo, en el primer operando) mostramos el mensaje de error
             mostrarAdvertencia("Para número negativo en el primer operando, use el signo '-' al inicio.");
         }
     }
 
+
+
     @FXML
     public void onClickPunto(ActionEvent event) {
         limpiarSiError();
-        String textoActual = Pantalla.getText();
+        String textoActual = pantalla.getText();
         if (textoActual.isEmpty()) {
-            Pantalla.setText("0.");
+            pantalla.setText("0.");
             return;
         }
         if (!textoActual.contains(".")) {
-            Pantalla.setText(textoActual + ".");
+            pantalla.setText(textoActual + ".");
             if (!historialOperacion.isEmpty() && !esperandoSegundoOperando) {
-                Operaciones.setText(historialOperacion + Pantalla.getText());
+                operaciones.setText(historialOperacion + pantalla.getText());
             }
         }
     }
@@ -114,9 +123,83 @@ public class ControladorCientifica {
      * se haya ingresado entre paréntesis (por ejemplo, "(-3)").
      */
     private void realizarOperacion() {
-        String text = Pantalla.getText();
+        String text = pantalla.getText();
 
-        // Verificar y completar el manejo de paréntesis para números negativos (si corresponde)
+        // Caso específico para logaritmo
+        if ("logaritmo".equals(operador)) {
+            if (!text.startsWith("log(") || !text.endsWith(")")) {
+                pantalla.setText("Error: Falta cerrar paréntesis");
+                return;
+            }
+            String inside = text.substring(4, text.length() - 1);
+            double valor = modelo.convertirNumero(inside.replace(',', '.'));
+            double resultado;
+            try {
+                resultado = Math.log10(valor);
+            } catch (IllegalArgumentException e) {
+                pantalla.setText("Error: " + e.getMessage());
+                return;
+            }
+            pantalla.setText(Formateo.formatResult(resultado));
+            operador = "";
+            esOperacionRealizada = true;
+            esperandoSegundoOperando = false;
+            historialOperacion = "";
+            return;
+        }
+
+        // Caso específico para tangente
+        if ("tangente".equals(operador)) {
+            if (!text.startsWith("tan(") || !text.endsWith(")")) {
+                pantalla.setText("Error: Falta cerrar paréntesis");
+                return;
+            }
+            String inside = text.substring(4, text.length() - 1);
+            double angulo = modelo.convertirNumero(inside.replace(',', '.'));
+            double resultado = cienti.calcularTangente(angulo);
+            pantalla.setText(Formateo.formatResult(resultado));
+            operador = "";
+            esOperacionRealizada = true;
+            esperandoSegundoOperando = false;
+            historialOperacion = "";
+            return;
+        }
+
+        // Caso específico para seno
+        if ("seno".equals(operador)) {
+            if (!text.startsWith("sin(") || !text.endsWith(")")) {
+                pantalla.setText("Error: Falta cerrar paréntesis");
+                return;
+            }
+            String inside = text.substring(4, text.length() - 1);
+            double angulo = modelo.convertirNumero(inside.replace(',', '.'));
+            double resultado = cienti.calcularSeno(angulo);
+            pantalla.setText(Formateo.formatResult(resultado));
+            operador = "";
+            esOperacionRealizada = true;
+            esperandoSegundoOperando = false;
+            historialOperacion = "";
+            return;
+        }
+
+        // Caso específico para coseno
+        if ("coseno".equals(operador)) {
+            if (!text.startsWith("cos(") || !text.endsWith(")")) {
+                pantalla.setText("Error: Falta cerrar paréntesis");
+                return;
+            }
+            String inside = text.substring(4, text.length() - 1);
+            double angulo = modelo.convertirNumero(inside.replace(',', '.'));
+            double resultado = cienti.calcularCoseno(angulo);
+            pantalla.setText(Formateo.formatResult(resultado));
+            operador = "";
+            esOperacionRealizada = true;
+            esperandoSegundoOperando = false;
+            historialOperacion = "";
+            return;
+        }
+
+        // Resto de la lógica para operaciones binarias (suma, exponencial, etc.)
         if (text.startsWith("(-") && !text.endsWith(")")) {
             mostrarAdvertencia("Cierre el paréntesis para el operando negativo.");
             return;
@@ -125,31 +208,30 @@ public class ControladorCientifica {
             text = "-" + text.substring(2, text.length() - 1);
         }
         text = text.replace(',', '.');
-
         double segundoNumero = modelo.convertirNumero(text);
-        if (Double.isNaN(segundoNumero)) {
-            Pantalla.setText("Error");
-            return;
+        double resultado;
+        if ("exponencial".equals(operador)) {
+            resultado = Math.pow(primerNumero, segundoNumero);
+        } else {
+            resultado = modelo.calcular(primerNumero, segundoNumero, operador);
         }
-
-        double resultado = modelo.calcular(primerNumero, segundoNumero, operador);
         if (!Double.isNaN(resultado)) {
             String resultStr = Formateo.formatResult(resultado);
-            Pantalla.setText(resultStr);
-            // Solo se actualiza la memoria si se usó el botón de memoria en la operación.
+            pantalla.setText(resultStr);
             if (usandoMemoria) {
                 memoria = resultStr;
-                usandoMemoria = false;  // Reiniciamos la bandera para futuras operaciones.
+                usandoMemoria = false;
             }
         } else {
-            Pantalla.setText("Error");
+            pantalla.setText("Error");
         }
-
         operador = "";
         esOperacionRealizada = true;
         esperandoSegundoOperando = false;
         historialOperacion = "";
     }
+
+
 
     /**
      * Maneja la pulsación de un operador.
@@ -160,8 +242,8 @@ public class ControladorCientifica {
         String oper = ((Button) event.getSource()).getText();
 
         // Si el display está vacío y se pulsa "-" para el primer operando, se trata como signo negativo
-        if (Pantalla.getText().isEmpty() && oper.equals("-")) {
-            Pantalla.setText("-");
+        if (pantalla.getText().isEmpty() && oper.equals("-")) {
+            pantalla.setText("-");
             return;
         }
 
@@ -172,9 +254,9 @@ public class ControladorCientifica {
                 // Reemplaza el último carácter (el operador anterior) por el nuevo.
                 historialOperacion = historialOperacion.substring(0, historialOperacion.length() - 1) + operador;
             } else {
-                historialOperacion = Pantalla.getText() + operador;
+                historialOperacion = pantalla.getText() + operador;
             }
-            Operaciones.setText(historialOperacion);
+            operaciones.setText(historialOperacion);
             return;
         }
 
@@ -182,7 +264,7 @@ public class ControladorCientifica {
             esOperacionRealizada = false;
         }
 
-        String currentText = Pantalla.getText().trim();
+        String currentText = pantalla.getText().trim();
         if (currentText.equals("Error") || currentText.isEmpty() || !currentText.matches("[+-]?\\d*([.,]\\d+)?")) {
             currentText = "0";
         } else {
@@ -198,9 +280,9 @@ public class ControladorCientifica {
         operador = oper;
         // Actualizamos el historial con el operando actual y el operador
         historialOperacion = currentText + operador;
-        Operaciones.setText(historialOperacion);
+        operaciones.setText(historialOperacion);
         // Limpiamos el display para que el segundo operando empiece vacío
-        Pantalla.setText("");
+        pantalla.setText("");
         esperandoSegundoOperando = true;
     }
 
@@ -208,48 +290,55 @@ public class ControladorCientifica {
     public void onClickNumero(ActionEvent event) {
         limpiarSiError();
         String numero = ((Button) event.getSource()).getText();
+
+        // Si la pantalla ya muestra alguna función unaria, se concatena el dígito
+        if (pantalla.getText().startsWith("log(") || pantalla.getText().startsWith("tan(") ||
+                pantalla.getText().startsWith("sin(") || pantalla.getText().startsWith("cos(")) {
+            pantalla.setText(pantalla.getText() + numero);
+            operaciones.setText(pantalla.getText());
+            return;
+        }
+        // Resto de la lógica para ingreso normal de números...
         if (esperandoSegundoOperando) {
-            // Si el display ya contiene "(-", no lo reemplazamos sino que concatenamos el dígito.
-            if (Pantalla.getText().startsWith("(-")) {
-                Pantalla.setText(Pantalla.getText() + numero);
+            if (pantalla.getText().startsWith("(-")) {
+                pantalla.setText(pantalla.getText() + numero);
             } else {
-                Pantalla.setText(numero);
+                pantalla.setText(numero);
             }
             esperandoSegundoOperando = false;
-            Operaciones.setText(historialOperacion + Pantalla.getText());
+            operaciones.setText(historialOperacion + pantalla.getText());
         } else {
             if (esOperacionRealizada) {
-                Pantalla.setText(numero);
-                Operaciones.setText("");
+                pantalla.setText(numero);
+                operaciones.setText("");
                 esOperacionRealizada = false;
             } else {
-                if (Pantalla.getText().equals("0") || Pantalla.getText().isEmpty()) {
-                    Pantalla.setText(numero);
+                if (pantalla.getText().equals("0") || pantalla.getText().isEmpty()) {
+                    pantalla.setText(numero);
                 } else {
-                    Pantalla.setText(Pantalla.getText() + numero);
+                    pantalla.setText(pantalla.getText() + numero);
                 }
                 if (!historialOperacion.isEmpty()) {
-                    Operaciones.setText(historialOperacion + Pantalla.getText());
+                    operaciones.setText(historialOperacion + pantalla.getText());
                 }
             }
         }
     }
 
-
     public void onClickBorrar() {
-        String texto = Pantalla.getText();
+        String texto = pantalla.getText();
         if (!texto.isEmpty()) {
             String nuevoTexto = texto.substring(0, texto.length() - 1);
-            Pantalla.setText(nuevoTexto);
+            pantalla.setText(nuevoTexto);
             if (!historialOperacion.isEmpty() && !esperandoSegundoOperando) {
-                Operaciones.setText(historialOperacion + nuevoTexto);
+                operaciones.setText(historialOperacion + nuevoTexto);
             }
         }
     }
 
     public void onClickBorrarTodo() {
-        Pantalla.setText("");
-        Operaciones.setText("");
+        pantalla.setText("");
+        operaciones.setText("");
         operador = "";
         primerNumero = 0;
         esOperacionRealizada = false;
@@ -258,14 +347,14 @@ public class ControladorCientifica {
     }
 
     private void limpiarSiError() {
-        if (Pantalla.getText().equals("Error")) {
-            Pantalla.setText("");
+        if (pantalla.getText().equals("Error")) {
+            pantalla.setText("");
         }
     }
 
     @FXML
     public void onClickCambiarSigno(ActionEvent event) {
-        String current = Pantalla.getText().trim();
+        String current = pantalla.getText().trim();
 
         // Si el display está vacío, no hacemos nada
         if (current.isEmpty()) {
@@ -284,7 +373,7 @@ public class ControladorCientifica {
             double toggled = -value;
             // Formateamos el resultado utilizando tu método de utilidades
             String formatted = Formateo.formatResult(toggled);
-            Pantalla.setText(formatted);
+            pantalla.setText(formatted);
 
             // Opcional: si estás mostrando el historial y deseas actualizarlo, puedes hacerlo aquí.
             // Por ejemplo, si el historial contiene el número actual, reemplázalo.
@@ -305,7 +394,7 @@ public class ControladorCientifica {
             toastLabel.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);"
                     + " -fx-text-fill: white; -fx-padding: 10px; -fx-background-radius: 5;");
             popup.getContent().add(toastLabel);
-            Stage stage = (Stage) Pantalla.getScene().getWindow();
+            Stage stage = (Stage) pantalla.getScene().getWindow();
             popup.show(stage);
             PauseTransition delay = new PauseTransition(Duration.seconds(2));
             delay.setOnFinished(e -> popup.hide());
@@ -315,7 +404,7 @@ public class ControladorCientifica {
 
     @FXML
     public void onClickSumarMemoria(ActionEvent event) {
-        String currentText = Pantalla.getText().trim();
+        String currentText = pantalla.getText().trim();
 
         if (currentText.isEmpty()) {
             mostrarAdvertencia("No hay nada para guardar en la memoria.");
@@ -342,8 +431,8 @@ public class ControladorCientifica {
             usandoMemoria = true;  // Se marca que se está usando la memoria en esta operación.
 
             // Se actualiza el display y el historial para reflejar la acción.
-            Pantalla.setText(newMemory);
-            Operaciones.setText("MR = " + newMemory);
+            pantalla.setText(newMemory);
+            operaciones.setText("MR = " + newMemory);
             mostrarAdvertencia("Memoria actualizada: " + newMemory);
         } catch (Exception e) {
             mostrarAdvertencia("Error al procesar la memoria.");
@@ -353,7 +442,7 @@ public class ControladorCientifica {
     @FXML
     public void onClickBorrarMemoria(ActionEvent event) {
         memoria = "0";
-        Operaciones.setText("MR = 0");
+        operaciones.setText("MR = 0");
         mostrarAdvertencia("Memoria reiniciada a 0");
     }
 
@@ -367,89 +456,81 @@ public class ControladorCientifica {
         // Si se está esperando el segundo operando (por ejemplo, después de pulsar un operador)
         if (esperandoSegundoOperando) {
             // Se inserta el valor de la memoria como el segundo operando
-            Pantalla.setText(memoria);
-            Operaciones.setText(historialOperacion + memoria);
+            pantalla.setText(memoria);
+            operaciones.setText(historialOperacion + memoria);
             esperandoSegundoOperando = false; // Se marca que ya se ha ingresado el segundo operando
         } else {
             // Si no se está en medio de una operación, simplemente se muestra la memoria
-            Pantalla.setText(memoria);
-            Operaciones.setText("MR = " + memoria);
+            pantalla.setText(memoria);
+            operaciones.setText("MR = " + memoria);
         }
     }
 
 
-        /**
-         * Método para calcular el seno del ángulo ingresado (en grados).
-         */
-        @FXML
-        public void onClickSeno() {
-            try {
-                double angulo = Double.parseDouble(Operaciones.getText());
-                double resultado = cienti.calcularSeno(angulo);
-                Pantalla.setText(Formateo.formatResult(resultado));
-            } catch (NumberFormatException e) {
-                Pantalla.setText("Error: Entrada inválida");
-            }
-        }
-
-        /**
-         * Método para calcular el coseno del ángulo ingresado (en grados).
-         */
-        @FXML
-        public void onClickCoseno() {
-            try {
-                double angulo = Double.parseDouble(Operaciones.getText());
-                double resultado = cienti.calcularCoseno(angulo);
-                Pantalla.setText(Formateo.formatResult(resultado));
-            } catch (NumberFormatException e) {
-                Pantalla.setText("Error: Entrada inválida");
-            }
-        }
-
-        /**
-         * Método para calcular la tangente del ángulo ingresado (en grados).
-         */
-        @FXML
-        public void onClickTangente() {
-            try {
-                double angulo = Double.parseDouble(Operaciones.getText());
-                double resultado = cienti.calcularTangente(angulo);
-                Pantalla.setText(Formateo.formatResult(resultado));
-            } catch (NumberFormatException e) {
-                Pantalla.setText("Error: Entrada inválida");
-            }
-        }
-
-        /**
-         * Método para calcular la exponencial de un número (e^x).
-         */
-        @FXML
-        public void onClickExponencial() {
-            try {
-                double exponente = Double.parseDouble(Operaciones.getText());
-                double resultado = cienti.calcularExponencial(exponente);
-                Pantalla.setText(Formateo.formatResult(resultado));
-            } catch (NumberFormatException e) {
-                Pantalla.setText("Error: Entrada inválida");
-            }
-        }
-
-        /**
-         * Método para calcular el logaritmo natural (ln) del valor ingresado.
-         */
-        @FXML
-        public void onClickLogaritmo() {
-            try {
-                double valor = Double.parseDouble(Operaciones.getText());
-                double resultado = cienti.calcularLogaritmo(valor);
-                Pantalla.setText(Formateo.formatResult(resultado));
-            } catch (NumberFormatException e) {
-                Pantalla.setText("Error: Entrada inválida");
-            } catch (IllegalArgumentException e) {
-                Pantalla.setText("Error: " + e.getMessage());
-            }
-        }
-
-       
+    /**
+     * Método para calcular el seno del ángulo ingresado (en grados).
+     */
+    @FXML
+    public void onClickSeno() {
+        // Inicia la operación de seno mostrando "sin(" en pantalla
+        pantalla.setText("sin(");
+        operador = "seno";
     }
 
+
+    /**
+     * Método para calcular el coseno del ángulo ingresado (en grados).
+     */
+    @FXML
+    public void onClickCoseno() {
+        // Inicia la operación de coseno mostrando "cos(" en pantalla
+        pantalla.setText("cos(");
+        operador = "coseno";
+    }
+
+
+    /**
+     * Método para calcular la tangente del ángulo ingresado (en grados).
+     */
+    @FXML
+    public void onClickTangente() {
+        pantalla.setText("tan(");
+        operador = "tangente";
+    }
+
+
+    /**
+     * Método para calcular la exponencial de un número (e^x).
+     */
+    @FXML
+    public void onClickExponencial() {
+        if (pantalla.getText().isEmpty()) {
+            pantalla.setText("Error: Ingrese la base");
+            return;
+        }
+        try {
+            // Se guarda la base ingresada
+            primerNumero = modelo.convertirNumero(pantalla.getText().replace(',', '.'));
+            // Se asigna el operador para identificar la exponenciación
+            operador = "exponencial";
+            // Se actualiza el historial para mostrar la operación en curso (por ejemplo, "9^")
+            historialOperacion = pantalla.getText() + "^";
+            operaciones.setText(historialOperacion);
+            // Se limpia el display para que el usuario ingrese el exponente
+            pantalla.setText("");
+            esperandoSegundoOperando = true;
+        } catch (NumberFormatException e) {
+            pantalla.setText("Error: Entrada inválida");
+        }
+    }
+    /**
+     * Método para calcular el logaritmo natural (ln) del valor ingresado.
+     */
+    @FXML
+    public void onClickLogaritmo() {
+        // Muestra "log(" en la pantalla para que el usuario ingrese el valor
+        pantalla.setText("log(");
+        operador = "logaritmo";
+        operacionLogaritmo = true;
+    }
+}

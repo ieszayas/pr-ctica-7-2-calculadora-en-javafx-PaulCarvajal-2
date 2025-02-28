@@ -13,12 +13,12 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <children>
-          <Label fx:id="Operaciones" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="385.0" textAlignment="RIGHT">
+          <Label fx:id="operaciones" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="385.0" textAlignment="RIGHT">
               <font>
                   <Font size="18.0" />
               </font>
           </Label>
-          <Label fx:id="Pantalla" alignment="CENTER_RIGHT" prefHeight="98.0" prefWidth="385.0" textAlignment="RIGHT">
+          <Label fx:id="pantalla" alignment="CENTER_RIGHT" prefHeight="98.0" prefWidth="385.0" textAlignment="RIGHT">
               <font>
                   <Font size="55.0" />
               </font>

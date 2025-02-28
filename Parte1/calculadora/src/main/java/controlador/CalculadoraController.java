@@ -13,15 +13,16 @@ import modelo.Formateo;
 import modelo.ModeloCalculadora;
 
 public class CalculadoraController {
+
     private String memoria = "";
     private boolean usandoMemoria = false;
     @FXML
-    private Label Pantalla;
+    private Label pantalla;
     @FXML
-    private Label Operaciones; // Label para mostrar el historial
+    private Label operaciones; // Label para mostrar el historial
 
     private String operador = "";
-    private double primerNumero = 0;
+    private double numero1 = 0;
     private boolean esOperacionRealizada = false;
     private boolean esperandoSegundoOperando = false;
     private String historialOperacion = "";
@@ -30,25 +31,25 @@ public class CalculadoraController {
 
     @FXML
     public void initialize() {
-        Pantalla.setText("");
-        Operaciones.setText("");
+        pantalla.setText("");
+        operaciones.setText("");
     }
 
     @FXML
     protected void onClickCalcular() {
-        String current = Pantalla.getText().trim();
+        String current = pantalla.getText().trim();
         if (current.isEmpty()) {
             mostrarAdvertencia("No hay número para calcular");
             return;
         }
         // Si no se ha seleccionado ningún operador, se muestra el mismo número en el historial con '='
         if (operador.isEmpty()) {
-            Operaciones.setText(current + "=");
+            operaciones.setText(current + "=");
             // Se mantiene el número en el display
             return;
         }
         // En caso de que se haya seleccionado un operador, se actualiza el historial y se realiza la operación
-        Operaciones.setText(historialOperacion + current + "=");
+        operaciones.setText(historialOperacion + current + "=");
         realizarOperacion();
     }
 
@@ -59,13 +60,13 @@ public class CalculadoraController {
      */
     @FXML
     public void onClickParentesis() {
-        String pantalla = Pantalla.getText();
+        String pantalla = this.pantalla.getText();
 
         // Si ya se inició el número negativo y no está cerrado, permitimos cerrar
         if (pantalla.startsWith("(-") && !pantalla.endsWith(")")) {
             if (pantalla.length() > 2) {  // Debe haber al menos un dígito después de "(-"
-                Pantalla.setText(pantalla + ")");
-                Operaciones.setText(historialOperacion + Pantalla.getText());
+                this.pantalla.setText(pantalla + ")");
+                operaciones.setText(historialOperacion + this.pantalla.getText());
             } else {
                 mostrarAdvertencia("Ingrese el número negativo antes de cerrar el paréntesis.");
             }
@@ -75,8 +76,8 @@ public class CalculadoraController {
         // Si se está en modo de espera para el segundo operando, permitimos abrir el paréntesis
         if (esperandoSegundoOperando) {
             if (pantalla.isEmpty() || pantalla.equals("0")) {
-                Pantalla.setText("(-");
-                Operaciones.setText(historialOperacion + "(-");
+                this.pantalla.setText("(-");
+                operaciones.setText(historialOperacion + "(-");
             } else {
                 mostrarAdvertencia("El número ya está iniciado. Para números negativos, inícielo con '(-'.");
             }
@@ -89,15 +90,15 @@ public class CalculadoraController {
     @FXML
     public void onClickPunto(ActionEvent event) {
         limpiarSiError();
-        String textoActual = Pantalla.getText();
+        String textoActual = pantalla.getText();
         if (textoActual.isEmpty()) {
-            Pantalla.setText("0.");
+            pantalla.setText("0.");
             return;
         }
         if (!textoActual.contains(".")) {
-            Pantalla.setText(textoActual + ".");
+            pantalla.setText(textoActual + ".");
             if (!historialOperacion.isEmpty() && !esperandoSegundoOperando) {
-                Operaciones.setText(historialOperacion + Pantalla.getText());
+                operaciones.setText(historialOperacion + pantalla.getText());
             }
         }
     }
@@ -107,7 +108,7 @@ public class CalculadoraController {
      * se haya ingresado entre paréntesis (por ejemplo, "(-3)").
      */
     private void realizarOperacion() {
-        String text = Pantalla.getText();
+        String text = pantalla.getText();
 
         // Verificar y completar el manejo de paréntesis para números negativos (si corresponde)
         if (text.startsWith("(-") && !text.endsWith(")")) {
@@ -121,21 +122,21 @@ public class CalculadoraController {
 
         double segundoNumero = modelo.convertirNumero(text);
         if (Double.isNaN(segundoNumero)) {
-            Pantalla.setText("Error");
+            pantalla.setText("Error");
             return;
         }
 
-        double resultado = modelo.calcular(primerNumero, segundoNumero, operador);
+        double resultado = modelo.calcular(numero1, segundoNumero, operador);
         if (!Double.isNaN(resultado)) {
             String resultStr = Formateo.formatResult(resultado);
-            Pantalla.setText(resultStr);
+            pantalla.setText(resultStr);
             // Solo se actualiza la memoria si se usó el botón de memoria en la operación.
             if (usandoMemoria) {
                 memoria = resultStr;
                 usandoMemoria = false;  // Reiniciamos la bandera para futuras operaciones.
             }
         } else {
-            Pantalla.setText("Error");
+            pantalla.setText("Error");
         }
 
         operador = "";
@@ -153,8 +154,8 @@ public class CalculadoraController {
         String oper = ((Button) event.getSource()).getText();
 
         // Si el display está vacío y se pulsa "-" para el primer operando, se trata como signo negativo
-        if (Pantalla.getText().isEmpty() && oper.equals("-")) {
-            Pantalla.setText("-");
+        if (pantalla.getText().isEmpty() && oper.equals("-")) {
+            pantalla.setText("-");
             return;
         }
 
@@ -165,9 +166,9 @@ public class CalculadoraController {
                 // Reemplaza el último carácter (el operador anterior) por el nuevo.
                 historialOperacion = historialOperacion.substring(0, historialOperacion.length() - 1) + operador;
             } else {
-                historialOperacion = Pantalla.getText() + operador;
+                historialOperacion = pantalla.getText() + operador;
             }
-            Operaciones.setText(historialOperacion);
+            operaciones.setText(historialOperacion);
             return;
         }
 
@@ -175,15 +176,15 @@ public class CalculadoraController {
             esOperacionRealizada = false;
         }
 
-        String currentText = Pantalla.getText().trim();
+        String currentText = pantalla.getText().trim();
         if (currentText.equals("Error") || currentText.isEmpty() || !currentText.matches("[+-]?\\d*([.,]\\d+)?")) {
             currentText = "0";
         } else {
             currentText = currentText.replace(',', '.');
         }
 
-        primerNumero = modelo.convertirNumero(currentText);
-        if (Double.isNaN(primerNumero)) {
+        numero1 = modelo.convertirNumero(currentText);
+        if (Double.isNaN(numero1)) {
             mostrarAdvertencia("Valor inválido para la operación");
             return;
         }
@@ -191,9 +192,9 @@ public class CalculadoraController {
         operador = oper;
         // Actualizamos el historial con el operando actual y el operador
         historialOperacion = currentText + operador;
-        Operaciones.setText(historialOperacion);
+        operaciones.setText(historialOperacion);
         // Limpiamos el display para que el segundo operando empiece vacío
-        Pantalla.setText("");
+        pantalla.setText("");
         esperandoSegundoOperando = true;
     }
 
@@ -203,26 +204,26 @@ public class CalculadoraController {
         String numero = ((Button) event.getSource()).getText();
         if (esperandoSegundoOperando) {
             // Si el display ya contiene "(-", no lo reemplazamos sino que concatenamos el dígito.
-            if (Pantalla.getText().startsWith("(-")) {
-                Pantalla.setText(Pantalla.getText() + numero);
+            if (pantalla.getText().startsWith("(-")) {
+                pantalla.setText(pantalla.getText() + numero);
             } else {
-                Pantalla.setText(numero);
+                pantalla.setText(numero);
             }
             esperandoSegundoOperando = false;
-            Operaciones.setText(historialOperacion + Pantalla.getText());
+            operaciones.setText(historialOperacion + pantalla.getText());
         } else {
             if (esOperacionRealizada) {
-                Pantalla.setText(numero);
-                Operaciones.setText("");
+                pantalla.setText(numero);
+                operaciones.setText("");
                 esOperacionRealizada = false;
             } else {
-                if (Pantalla.getText().equals("0") || Pantalla.getText().isEmpty()) {
-                    Pantalla.setText(numero);
+                if (pantalla.getText().equals("0") || pantalla.getText().isEmpty()) {
+                    pantalla.setText(numero);
                 } else {
-                    Pantalla.setText(Pantalla.getText() + numero);
+                    pantalla.setText(pantalla.getText() + numero);
                 }
                 if (!historialOperacion.isEmpty()) {
-                    Operaciones.setText(historialOperacion + Pantalla.getText());
+                    operaciones.setText(historialOperacion + pantalla.getText());
                 }
             }
         }
@@ -230,34 +231,34 @@ public class CalculadoraController {
 
 
     public void onClickBorrar() {
-        String texto = Pantalla.getText();
+        String texto = pantalla.getText();
         if (!texto.isEmpty()) {
             String nuevoTexto = texto.substring(0, texto.length() - 1);
-            Pantalla.setText(nuevoTexto);
+            pantalla.setText(nuevoTexto);
             if (!historialOperacion.isEmpty() && !esperandoSegundoOperando) {
-                Operaciones.setText(historialOperacion + nuevoTexto);
+                operaciones.setText(historialOperacion + nuevoTexto);
             }
         }
     }
 
     public void onClickBorrarTodo() {
-        Pantalla.setText("");
-        Operaciones.setText("");
+        pantalla.setText("");
+        operaciones.setText("");
         operador = "";
-        primerNumero = 0;
+        numero1 = 0;
         esOperacionRealizada = false;
         esperandoSegundoOperando = false;
         historialOperacion = "";
     }
 
     private void limpiarSiError() {
-        if (Pantalla.getText().equals("Error")) {
-            Pantalla.setText("");
+        if (pantalla.getText().equals("Error")) {
+            pantalla.setText("");
         }
     }
     @FXML
     public void onClickCambiarSigno(ActionEvent event) {
-        String current = Pantalla.getText().trim();
+        String current = pantalla.getText().trim();
 
         // Si el display está vacío, no hacemos nada
         if(current.isEmpty()) {
@@ -276,7 +277,7 @@ public class CalculadoraController {
             double toggled = -value;
             // Formateamos el resultado utilizando tu método de utilidades
             String formatted = Formateo.formatResult(toggled);
-            Pantalla.setText(formatted);
+            pantalla.setText(formatted);
 
             // Opcional: si estás mostrando el historial y deseas actualizarlo, puedes hacerlo aquí.
             // Por ejemplo, si el historial contiene el número actual, reemplázalo.
@@ -297,7 +298,7 @@ public class CalculadoraController {
             toastLabel.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);"
                     + " -fx-text-fill: white; -fx-padding: 10px; -fx-background-radius: 5;");
             popup.getContent().add(toastLabel);
-            Stage stage = (Stage) Pantalla.getScene().getWindow();
+            Stage stage = (Stage) pantalla.getScene().getWindow();
             popup.show(stage);
             PauseTransition delay = new PauseTransition(Duration.seconds(2));
             delay.setOnFinished(e -> popup.hide());
@@ -306,7 +307,7 @@ public class CalculadoraController {
     }
     @FXML
     public void onClickSumarMemoria(ActionEvent event) {
-        String currentText = Pantalla.getText().trim();
+        String currentText = pantalla.getText().trim();
 
         if (currentText.isEmpty()) {
             mostrarAdvertencia("No hay nada para guardar en la memoria.");
@@ -333,8 +334,8 @@ public class CalculadoraController {
             usandoMemoria = true;  // Se marca que se está usando la memoria en esta operación.
 
             // Se actualiza el display y el historial para reflejar la acción.
-            Pantalla.setText(newMemory);
-            Operaciones.setText("MR = " + newMemory);
+            pantalla.setText(newMemory);
+            operaciones.setText("MR = " + newMemory);
             mostrarAdvertencia("Memoria actualizada: " + newMemory);
         } catch (Exception e) {
             mostrarAdvertencia("Error al procesar la memoria.");
@@ -343,7 +344,7 @@ public class CalculadoraController {
     @FXML
     public void onClickBorrarMemoria(ActionEvent event) {
         memoria = "0";
-        Operaciones.setText("MR = 0");
+        operaciones.setText("MR = 0");
         mostrarAdvertencia("Memoria reiniciada a 0");
     }
 
@@ -357,13 +358,13 @@ public class CalculadoraController {
         // Si se está esperando el segundo operando (por ejemplo, después de pulsar un operador)
         if (esperandoSegundoOperando) {
             // Se inserta el valor de la memoria como el segundo operando
-            Pantalla.setText(memoria);
-            Operaciones.setText(historialOperacion + memoria);
+            pantalla.setText(memoria);
+            operaciones.setText(historialOperacion + memoria);
             esperandoSegundoOperando = false; // Se marca que ya se ha ingresado el segundo operando
         } else {
             // Si no se está en medio de una operación, simplemente se muestra la memoria
-            Pantalla.setText(memoria);
-            Operaciones.setText("MR = " + memoria);
+            pantalla.setText(memoria);
+            operaciones.setText("MR = " + memoria);
         }
     }
 
