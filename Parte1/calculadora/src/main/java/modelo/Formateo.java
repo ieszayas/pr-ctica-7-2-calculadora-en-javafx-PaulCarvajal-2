@@ -1,27 +1,18 @@
 package modelo;
 
+import java.util.Locale;
+
 public class Formateo {
 
-    /**
-     * Formatea un número decimal eliminando ceros innecesarios.
-     * <p>
-     * Si el número es un entero (por ejemplo, 5.0), se devuelve sin decimales (ejemplo: "5").
-     * Si el número tiene decimales significativos (por ejemplo, 5.12345),
-     * se devuelve con hasta 5 decimales eliminando ceros innecesarios al final.
-     * </p>
-     *
-     * @param result El número decimal a formatear.
-     * @return Una cadena con el número formateado sin ceros innecesarios.
-     */
     public static String formatResult(double result) {
-        // Si el número es un entero exacto (por ejemplo, 5.0), se devuelve sin decimales
+        String formatted;
         if (result == (long) result) {
-            return String.format("%d", (long) result);
+            // Formatea sin decimales
+            formatted = String.format(Locale.US, "%.0f", result);
         } else {
-            // Formatea el número con hasta 5 decimales y elimina ceros innecesarios
-            return String.format("%.5f", result).replaceAll("\\.?0*$", "");
+            // Formatea con 5 decimales y elimina ceros finales (y un punto final si es necesario)
+            formatted = String.format(Locale.US, "%.5f", result).replaceAll("\\.?0+$", "");
         }
+        return formatted;
     }
-
 }
-

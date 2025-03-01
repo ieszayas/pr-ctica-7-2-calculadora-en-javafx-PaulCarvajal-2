@@ -4,6 +4,8 @@ module com.example.calculadora {
 
     requires org.kordamp.bootstrapfx.core;
     requires org.json;
+    requires java.desktop;
+    requires exp4j;
 
     opens controlador to javafx.fxml;
     exports controlador;

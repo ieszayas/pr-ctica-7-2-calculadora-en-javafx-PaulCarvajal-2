@@ -21,13 +21,16 @@
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
     </repositories>
-    <dependencies>
 
+
+    <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>21</version>
         </dependency>
+
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
@@ -50,10 +53,17 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20211205</version>
+        </dependency>
+        <dependency>
+            <groupId>net.objecthunter</groupId>
+            <artifactId>exp4j</artifactId>
+            <version>0.4.8</version>
         </dependency>
 
     </dependencies>

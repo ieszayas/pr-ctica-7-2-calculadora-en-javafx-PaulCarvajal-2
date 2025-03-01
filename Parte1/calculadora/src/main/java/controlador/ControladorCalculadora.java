@@ -12,7 +12,7 @@ import javafx.util.Duration;
 import modelo.Formateo;
 import modelo.ModeloCalculadora;
 
-public class CalculadoraController {
+public class ControladorCalculadora {
 
     private String memoria = "";
     private boolean usandoMemoria = false;
@@ -29,11 +29,23 @@ public class CalculadoraController {
 
     private ModeloCalculadora modelo = new ModeloCalculadora();
 
+    private ControladorMain controladorMain; // Asignado cuando se inicia la aplicación
+
     @FXML
     public void initialize() {
         pantalla.setText("");
         operaciones.setText("");
     }
+
+    /**
+     * Asigna la referencia al controlador principal para actualizar el historial global.
+     *
+     * @param controladorMain La instancia de ControladorMain que se utilizará para agregar operaciones al historial.
+     */
+    public void setControladorMain(ControladorMain controladorMain) {
+        this.controladorMain = controladorMain;
+    }
+
 
     @FXML
     protected void onClickCalcular() {
@@ -48,6 +60,7 @@ public class CalculadoraController {
             // Se mantiene el número en el display
             return;
         }
+
         // En caso de que se haya seleccionado un operador, se actualiza el historial y se realiza la operación
         operaciones.setText(historialOperacion + current + "=");
         realizarOperacion();
@@ -134,6 +147,13 @@ public class CalculadoraController {
             if (usandoMemoria) {
                 memoria = resultStr;
                 usandoMemoria = false;  // Reiniciamos la bandera para futuras operaciones.
+            }
+
+            // Construye la cadena completa que representa la operación, por ejemplo "5+3=8"
+            String operacionCompleta = historialOperacion + text + "=" + resultStr;
+            // Si se tiene una referencia al controlador principal, se agrega la operación al historial global.
+            if (controladorMain != null) {
+                controladorMain.agregarOperacion(operacionCompleta);
             }
         } else {
             pantalla.setText("Error");
@@ -369,5 +389,7 @@ public class CalculadoraController {
     }
 
 
+    public void onClickDolar(ActionEvent actionEvent) {
 
+    }
 }

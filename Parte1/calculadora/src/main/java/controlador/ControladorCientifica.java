@@ -26,6 +26,7 @@ public class ControladorCientifica {
     private boolean esOperacionRealizada = false;
     private boolean esperandoSegundoOperando = false;
     private boolean operacionLogaritmo = false;
+    private double multiplicador = 1;
 
     private String historialOperacion = "";
 
@@ -33,7 +34,7 @@ public class ControladorCientifica {
 
     // Instancia de la clase que contiene los métodos científicos
     private Cientifica cienti = new Cientifica();
-
+    private ControladorMain controladorMain;
 
 
 
@@ -41,6 +42,10 @@ public class ControladorCientifica {
     public void initialize() {
         pantalla.setText("");
         operaciones.setText("");
+    }
+
+    public void setControladorMain(ControladorMain controladorMain) {
+        this.controladorMain = controladorMain;
     }
 
     @FXML
@@ -123,101 +128,194 @@ public class ControladorCientifica {
      * se haya ingresado entre paréntesis (por ejemplo, "(-3)").
      */
     private void realizarOperacion() {
+        // Se obtiene el texto actual del display
         String text = pantalla.getText();
 
-        // Caso específico para logaritmo
+        // --------------------------
+        // CASO ESPECÍFICO: LOGARITMO (base 10)
+        // --------------------------
         if ("logaritmo".equals(operador)) {
+            // Verifica que el texto tenga el formato correcto: debe iniciar con "log(" y terminar con ")"
             if (!text.startsWith("log(") || !text.endsWith(")")) {
                 pantalla.setText("Error: Falta cerrar paréntesis");
                 return;
             }
+            // Extrae el contenido dentro de los paréntesis
             String inside = text.substring(4, text.length() - 1);
+            // Convierte la cadena a número, reemplazando coma por punto
             double valor = modelo.convertirNumero(inside.replace(',', '.'));
             double resultado;
             try {
-                resultado = Math.log10(valor);
+                // Calcula el logaritmo en base 10 utilizando el modelo Cientifica
+                resultado = cienti.calcularLogaritmoBase10(valor);
             } catch (IllegalArgumentException e) {
                 pantalla.setText("Error: " + e.getMessage());
                 return;
             }
-            pantalla.setText(Formateo.formatResult(resultado));
+            // Aplica el multiplicador (en caso de que se haya ingresado un valor previo)
+            resultado = multiplicador * resultado;
+            // Formatea el resultado a cadena
+            String resultStr = Formateo.formatResult(resultado);
+            // Muestra el resultado en el display
+            pantalla.setText(resultStr);
+
+            // Construye la cadena completa de la operación para el historial, por ejemplo "5*log(10)=1.00"
+            String operacionCompleta = historialOperacion + text + "=" + resultStr;
+            // Agrega la operación al historial global si se dispone de controladorMain
+            if (controladorMain != null) {
+                controladorMain.agregarOperacion(operacionCompleta);
+            }
+
+            // Reinicia variables de estado para continuar
             operador = "";
             esOperacionRealizada = true;
             esperandoSegundoOperando = false;
             historialOperacion = "";
+            multiplicador = 1;
             return;
         }
 
-        // Caso específico para tangente
+        // --------------------------
+        // CASO ESPECÍFICO: TANGENTE
+        // --------------------------
         if ("tangente".equals(operador)) {
+            // Verifica que el texto tenga el formato correcto: debe iniciar con "tan(" y terminar con ")"
             if (!text.startsWith("tan(") || !text.endsWith(")")) {
                 pantalla.setText("Error: Falta cerrar paréntesis");
                 return;
             }
+            // Extrae el contenido entre "tan(" y ")"
             String inside = text.substring(4, text.length() - 1);
+            // Convierte la cadena a número (ángulo) reemplazando coma por punto
             double angulo = modelo.convertirNumero(inside.replace(',', '.'));
-            double resultado = cienti.calcularTangente(angulo);
-            pantalla.setText(Formateo.formatResult(resultado));
+            // Calcula la tangente multiplicada por el multiplicador
+            double resultado = multiplicador * cienti.calcularTangente(angulo);
+            // Formatea el resultado
+            String resultStr = Formateo.formatResult(resultado);
+            // Muestra el resultado en el display
+            pantalla.setText(resultStr);
+
+            // Construye la cadena completa de la operación
+            String operacionCompleta = historialOperacion + text + "=" + resultStr;
+            // Agrega la operación al historial global si se dispone de controladorMain
+            if (controladorMain != null) {
+                controladorMain.agregarOperacion(operacionCompleta);
+            }
+
+            // Reinicia las variables de la operación
             operador = "";
             esOperacionRealizada = true;
             esperandoSegundoOperando = false;
             historialOperacion = "";
+            multiplicador = 1;
             return;
         }
 
-        // Caso específico para seno
+        // --------------------------
+        // CASO ESPECÍFICO: SENO
+        // --------------------------
         if ("seno".equals(operador)) {
+            // Verifica que el texto tenga el formato correcto: debe iniciar con "sin(" y terminar con ")"
             if (!text.startsWith("sin(") || !text.endsWith(")")) {
                 pantalla.setText("Error: Falta cerrar paréntesis");
                 return;
             }
+            // Extrae el contenido entre "sin(" y ")"
             String inside = text.substring(4, text.length() - 1);
+            // Convierte la cadena a número (ángulo) con reemplazo de coma por punto
             double angulo = modelo.convertirNumero(inside.replace(',', '.'));
-            double resultado = cienti.calcularSeno(angulo);
-            pantalla.setText(Formateo.formatResult(resultado));
+            // Calcula el seno multiplicado por el multiplicador
+            double resultado = multiplicador * cienti.calcularSeno(angulo);
+            // Formatea el resultado
+            String resultStr = Formateo.formatResult(resultado);
+            // Muestra el resultado en el display
+            pantalla.setText(resultStr);
+
+            // Construye la operación completa para el historial
+            String operacionCompleta = historialOperacion + text + "=" + resultStr;
+            if (controladorMain != null) {
+                controladorMain.agregarOperacion(operacionCompleta);
+            }
+
+            // Reinicia las variables de estado
             operador = "";
             esOperacionRealizada = true;
             esperandoSegundoOperando = false;
             historialOperacion = "";
+            multiplicador = 1;
             return;
         }
 
-        // Caso específico para coseno
+        // --------------------------
+        // CASO ESPECÍFICO: COSENO
+        // --------------------------
         if ("coseno".equals(operador)) {
+            // Verifica el formato correcto: debe iniciar con "cos(" y terminar con ")"
             if (!text.startsWith("cos(") || !text.endsWith(")")) {
                 pantalla.setText("Error: Falta cerrar paréntesis");
                 return;
             }
+            // Extrae el contenido entre "cos(" y ")"
             String inside = text.substring(4, text.length() - 1);
+            // Convierte la cadena a número (ángulo)
             double angulo = modelo.convertirNumero(inside.replace(',', '.'));
-            double resultado = cienti.calcularCoseno(angulo);
-            pantalla.setText(Formateo.formatResult(resultado));
+            // Calcula el coseno multiplicado por el multiplicador
+            double resultado = multiplicador * cienti.calcularCoseno(angulo);
+            // Formatea el resultado
+            String resultStr = Formateo.formatResult(resultado);
+            // Muestra el resultado en el display
+            pantalla.setText(resultStr);
+
+            // Construye la operación completa para el historial
+            String operacionCompleta = historialOperacion + text + "=" + resultStr;
+            if (controladorMain != null) {
+                controladorMain.agregarOperacion(operacionCompleta);
+            }
+
+            // Reinicia variables de estado
             operador = "";
             esOperacionRealizada = true;
             esperandoSegundoOperando = false;
             historialOperacion = "";
+            multiplicador = 1;
             return;
         }
 
-        // Resto de la lógica para operaciones binarias (suma, exponencial, etc.)
+        // --------------------------
+        // CASO GENERAL: OPERACIONES BINARIAS (suma, resta, multiplicación, división, exponencial, etc.)
+        // --------------------------
+        // Maneja el caso en que se ingresa un número negativo entre paréntesis sin cerrar
         if (text.startsWith("(-") && !text.endsWith(")")) {
             mostrarAdvertencia("Cierre el paréntesis para el operando negativo.");
             return;
         }
+        // Si el número negativo ya está cerrado, lo convierte a formato negativo simple
         if (text.startsWith("(-") && text.endsWith(")")) {
             text = "-" + text.substring(2, text.length() - 1);
         }
+        // Reemplaza la coma por punto para la conversión numérica
         text = text.replace(',', '.');
+        // Convierte el texto a un número para el segundo operando
         double segundoNumero = modelo.convertirNumero(text);
         double resultado;
+        // Si el operador es "exponencial", se calcula la potencia
         if ("exponencial".equals(operador)) {
             resultado = Math.pow(primerNumero, segundoNumero);
         } else {
+            // Para otros operadores, se delega el cálculo en el modelo
             resultado = modelo.calcular(primerNumero, segundoNumero, operador);
         }
+        // Si el resultado es un número válido, se formatea y se muestra
         if (!Double.isNaN(resultado)) {
             String resultStr = Formateo.formatResult(resultado);
             pantalla.setText(resultStr);
+            // Construye la cadena completa de la operación, por ejemplo "5+3=8"
+            String operacionCompleta = historialOperacion + text + "=" + resultStr;
+            // Agrega la operación al historial global si está disponible el controlador principal
+            if (controladorMain != null) {
+                controladorMain.agregarOperacion(operacionCompleta);
+            }
+            // Si se está utilizando la memoria, se actualiza con el nuevo resultado
             if (usandoMemoria) {
                 memoria = resultStr;
                 usandoMemoria = false;
@@ -225,6 +323,7 @@ public class ControladorCientifica {
         } else {
             pantalla.setText("Error");
         }
+        // Reinicia las variables de la operación
         operador = "";
         esOperacionRealizada = true;
         esperandoSegundoOperando = false;

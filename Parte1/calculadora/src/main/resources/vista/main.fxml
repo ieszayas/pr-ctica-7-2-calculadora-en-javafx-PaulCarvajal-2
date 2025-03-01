@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -15,24 +16,29 @@
                 <Menu fx:id="menuModo" mnemonicParsing="false" text="Modo">
                   <items>
                         <MenuItem fx:id="menuItemCientifica" mnemonicParsing="false" onAction="#cargarCalculadoraCientifica" text="Cientifica" />
+                        <MenuItem fx:id="mostrarGrafica" mnemonicParsing="false" onAction="#mostrarGrafica" text="Grafica" />
                         <MenuItem fx:id="convertir" mnemonicParsing="false" onAction="#cargarConversor" text="Conversor" />
                     <MenuItem fx:id="menuItemCalculadora" mnemonicParsing="false" onAction="#cargarCalculadoraNormal" text="Calculadora" />
                   </items>
                 </Menu>
                 <Menu fx:id="menuEdicion" mnemonicParsing="false" text="Edicion">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                    <MenuItem fx:id="guardarHistorial" mnemonicParsing="false" onAction="#guardarHistorial" text="GuardarHistorial" />
+                        <MenuItem fx:id="cargarHistorial" mnemonicParsing="false" onAction="#cargarHistorial" text="Cargar Historial" />
+                        <MenuItem fx:id="borrarHistorial" mnemonicParsing="false" onAction="#borrarHistorial" text="BorrarHistorial" />
                   </items>
                 </Menu>
                 <Menu fx:id="menuAyuda" mnemonicParsing="false" text="Ayuda">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem fx:id="textAreaAyuda" mnemonicParsing="false" onAction="#mostrarAyuda" text="Acerca de" />
                   </items>
                 </Menu>
               </menus>
             </MenuBar>
          </top>
+         <left>
+            <ListView fx:id="listHistorial" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </left>
       </BorderPane>
    </children>
 </AnchorPane>
