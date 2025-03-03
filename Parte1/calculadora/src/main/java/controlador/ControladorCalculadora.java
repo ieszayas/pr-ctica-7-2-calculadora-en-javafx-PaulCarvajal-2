@@ -362,6 +362,42 @@ public class ControladorCalculadora {
         }
     }
     @FXML
+    public void onClickRestarMemoria(ActionEvent event) {
+        String currentText = pantalla.getText().trim();
+        if (currentText.isEmpty()) {
+            mostrarAdvertencia("No hay nada para guardar en la memoria.");
+            return;
+        }
+
+        try {
+            // Convertir el número actual (reemplazando coma por punto si es necesario)
+            double currentNumber = modelo.convertirNumero(currentText.replace(',', '.'));
+            double memoryNumber;
+
+            if (memoria.isEmpty()) {
+                // Primera vez: se guarda el negativo del número actual en memoria.
+                memoryNumber = -currentNumber;
+            } else {
+                // Usos posteriores: se resta el número actual del valor guardado en memoria.
+                double storedNumber = modelo.convertirNumero(memoria.replace(',', '.'));
+                memoryNumber = storedNumber - currentNumber;
+            }
+
+            // Formatear el nuevo valor de memoria.
+            String newMemory = Formateo.formatResult(memoryNumber);
+            memoria = newMemory;
+            usandoMemoria = true;  // Se marca que se está usando la memoria en esta operación.
+
+            // Se actualiza el display y el historial para reflejar la acción.
+            pantalla.setText(newMemory);
+            operaciones.setText("MR = " + newMemory);
+            mostrarAdvertencia("Memoria actualizada: " + newMemory);
+        } catch (Exception e) {
+            mostrarAdvertencia("Error al procesar la memoria.");
+        }
+    }
+
+    @FXML
     public void onClickBorrarMemoria(ActionEvent event) {
         memoria = "0";
         operaciones.setText("MR = 0");
@@ -389,7 +425,4 @@ public class ControladorCalculadora {
     }
 
 
-    public void onClickDolar(ActionEvent actionEvent) {
-
-    }
 }

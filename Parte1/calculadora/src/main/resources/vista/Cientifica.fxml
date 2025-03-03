@@ -26,9 +26,43 @@
           <Separator prefHeight="0.0" />
           <HBox alignment="CENTER" spacing="10.0">
               <children>
+            <VBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <Button fx:id="btn_exp" mnemonicParsing="false" onAction="#onClickExponencial" prefHeight="56.0" prefWidth="76.0" text="xª">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_log" mnemonicParsing="false" onAction="#onClickLogaritmo" prefHeight="56.0" prefWidth="76.0" text="log">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_seno" mnemonicParsing="false" onAction="#onClickSeno" prefHeight="56.0" prefWidth="76.0" text="sen">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_cos" mnemonicParsing="false" onAction="#onClickCoseno" prefHeight="56.0" prefWidth="76.0" text="cos">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_tan" lineSpacing="10.0" mnemonicParsing="false" onAction="#onClickTangente" prefHeight="56.0" prefWidth="76.0" text="tan">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
                   <VBox alignment="CENTER" spacing="10.0">
                       <children>
                           <Button fx:id="btn_Memoria" mnemonicParsing="false" onAction="#onClickSumarMemoria" prefHeight="56.0" prefWidth="70.0" text="M+">
+                              <font>
+                                  <Font size="23.0" />
+                              </font>
+                          </Button>
+                          <Button fx:id="btn_restarMemoria" mnemonicParsing="false" onAction="#onClickRestarMemoria" prefHeight="56.0" prefWidth="70.0" text="M-">
                               <font>
                                   <Font size="23.0" />
                               </font>
@@ -46,11 +80,6 @@
                           <Button fx:id="btn_cambiarSigno" mnemonicParsing="false" onAction="#onClickCambiarSigno" prefHeight="56.0" prefWidth="70.0" text="+/-">
                               <font>
                                   <Font size="24.0" />
-                              </font>
-                          </Button>
-                          <Button fx:id="btn_Cero11" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="56.0" prefWidth="70.0" text="\$">
-                              <font>
-                                  <Font size="26.0" />
                               </font>
                           </Button>
                       </children>
@@ -115,11 +144,11 @@
                   </VBox>
                   <VBox alignment="CENTER" spacing="10.0">
                       <children>
-                          <Button fx:id="btn_borrarUno" mnemonicParsing="false" onAction="#onClickBorrar" prefHeight="56.0" prefWidth="60.0" text="B">
-                              <font>
-                                  <Font size="26.0" />
-                              </font>
-                          </Button>
+                  <Button fx:id="btn_porcentaje" mnemonicParsing="false" onAction="#onClickOperacion" prefHeight="56.0" prefWidth="60.0" text="\%">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Button>
                           <Button fx:id="btn_Nueve" mnemonicParsing="false" onAction="#onClickNumero" prefHeight="56.0" prefWidth="60.0" text="9">
                               <font>
                                   <Font size="26.0" />
@@ -171,35 +200,6 @@
                           </Button>
                       </children>
                   </VBox>
-            <VBox alignment="CENTER" spacing="10.0">
-               <children>
-                  <Button fx:id="btn_log" mnemonicParsing="false" onAction="#onClickLogaritmo" prefHeight="56.0" prefWidth="76.0" text="log">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btn_exp" mnemonicParsing="false" onAction="#onClickExponencial" prefHeight="56.0" prefWidth="76.0" text="xª">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btn_seno" mnemonicParsing="false" onAction="#onClickSeno" prefHeight="56.0" prefWidth="76.0" text="sen">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btn_cos" mnemonicParsing="false" onAction="#onClickCoseno" prefHeight="56.0" prefWidth="76.0" text="cos">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btn_tan" lineSpacing="10.0" mnemonicParsing="false" onAction="#onClickTangente" prefHeight="56.0" prefWidth="76.0" text="tan">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
               </children>
           </HBox>
     </children>

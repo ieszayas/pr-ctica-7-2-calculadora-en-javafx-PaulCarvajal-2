@@ -10,15 +10,13 @@ public class ControladorAyuda {
 
     @FXML
     public void initialize() {
-        String ayudaText = "Bienvenido a la Calculadora.\n\n" +
-                "Esta aplicación te permite:\n\n" +
-                "1. Realizar operaciones básicas y avanzadas (calculadora normal \n" +
-                "y científica).\n" +
-                "2. Convertir monedas usando datos en tiempo real de ExchangeRate-API.\n" +
-                "3. Graficar funciones matemáticas: ingresa la función, define el rango\n " +
-                "y el incremento, y visualiza la gráfica.\n" +
-                "4. Consultar y gestionar el historial de operaciones: guarda, carga o\n" +
-                " borra el historial desde el menú de Edición.\n\n";
+        String ayudaText =
+                "La aplicacion que esta utilizando le permite realizar varias operaciones: \n\n" +
+                "1. Operaciones de una calculadora normal y una cientifica.\n" +
+                "2. Gracias a una API ver el cambio de las monedas en tiempo real.\n" +
+                "3. Poder graficar funciones matematicas\n" +
+                "4. Gestionar el historial de operaciones\n\n" +
+                "Gracias por utilizar la aplicacion";
         textAreaAyuda.setText(ayudaText);
     }
 }

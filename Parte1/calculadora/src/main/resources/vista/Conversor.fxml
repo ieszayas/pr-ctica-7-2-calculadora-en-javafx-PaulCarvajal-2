@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="321.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorConversor">
    <children>
@@ -28,17 +29,38 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="DE" />
-                  <TextField fx:id="cantidad" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="A" GridPane.rowIndex="1" />
-                  <Label text="Cantidad" GridPane.rowIndex="2" />
+                  <Label text="DE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <TextField fx:id="cantidad" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="20.0" />
+                     </font></TextField>
+                  <Label text="A" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label text="Cantidad:" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
                   <ComboBox fx:id="currencyFrom" prefWidth="150.0" GridPane.columnIndex="1" />
-                  <ComboBox fx:id="currencyTo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Cantidad convertida" GridPane.rowIndex="3" />
-                  <Label fx:id="resultado" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ComboBox fx:id="currencyTo" prefHeight="26.0" prefWidth="164.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="Cantidad convertida:" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label fx:id="resultado" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="132.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
                </children>
             </GridPane>
-            <Label alignment="CENTER" layoutX="16.0" layoutY="8.0" prefHeight="17.0" prefWidth="307.0" text="CONVIERTE" textAlignment="CENTER" />
+            <Label alignment="CENTER" layoutX="20.0" layoutY="-2.0" prefHeight="17.0" prefWidth="307.0" text="CONVERTIDOR" textAlignment="CENTER">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
          </children>
       </Pane>
    </children>

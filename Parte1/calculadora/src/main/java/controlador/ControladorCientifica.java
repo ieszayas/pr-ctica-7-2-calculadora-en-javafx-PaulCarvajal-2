@@ -1,5 +1,7 @@
 package controlador;
 
+
+
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -35,9 +37,6 @@ public class ControladorCientifica {
     // Instancia de la clase que contiene los métodos científicos
     private Cientifica cienti = new Cientifica();
     private ControladorMain controladorMain;
-
-
-
     @FXML
     public void initialize() {
         pantalla.setText("");
@@ -131,9 +130,7 @@ public class ControladorCientifica {
         // Se obtiene el texto actual del display
         String text = pantalla.getText();
 
-        // --------------------------
-        // CASO ESPECÍFICO: LOGARITMO (base 10)
-        // --------------------------
+        //logaritmo
         if ("logaritmo".equals(operador)) {
             // Verifica que el texto tenga el formato correcto: debe iniciar con "log(" y terminar con ")"
             if (!text.startsWith("log(") || !text.endsWith(")")) {
@@ -175,9 +172,7 @@ public class ControladorCientifica {
             return;
         }
 
-        // --------------------------
-        // CASO ESPECÍFICO: TANGENTE
-        // --------------------------
+        //tangente
         if ("tangente".equals(operador)) {
             // Verifica que el texto tenga el formato correcto: debe iniciar con "tan(" y terminar con ")"
             if (!text.startsWith("tan(") || !text.endsWith(")")) {
@@ -211,9 +206,7 @@ public class ControladorCientifica {
             return;
         }
 
-        // --------------------------
-        // CASO ESPECÍFICO: SENO
-        // --------------------------
+        //seno
         if ("seno".equals(operador)) {
             // Verifica que el texto tenga el formato correcto: debe iniciar con "sin(" y terminar con ")"
             if (!text.startsWith("sin(") || !text.endsWith(")")) {
@@ -246,9 +239,7 @@ public class ControladorCientifica {
             return;
         }
 
-        // --------------------------
-        // CASO ESPECÍFICO: COSENO
-        // --------------------------
+        //coseno
         if ("coseno".equals(operador)) {
             // Verifica el formato correcto: debe iniciar con "cos(" y terminar con ")"
             if (!text.startsWith("cos(") || !text.endsWith(")")) {
@@ -522,6 +513,42 @@ public class ControladorCientifica {
                 // Usos posteriores: se suma el número actual con el valor guardado en memoria.
                 double storedNumber = modelo.convertirNumero(memoria.replace(',', '.'));
                 memoryNumber = storedNumber + currentNumber;
+            }
+
+            // Formatear el nuevo valor de memoria.
+            String newMemory = Formateo.formatResult(memoryNumber);
+            memoria = newMemory;
+            usandoMemoria = true;  // Se marca que se está usando la memoria en esta operación.
+
+            // Se actualiza el display y el historial para reflejar la acción.
+            pantalla.setText(newMemory);
+            operaciones.setText("MR = " + newMemory);
+            mostrarAdvertencia("Memoria actualizada: " + newMemory);
+        } catch (Exception e) {
+            mostrarAdvertencia("Error al procesar la memoria.");
+        }
+    }
+
+    @FXML
+    public void onClickRestarMemoria(ActionEvent event) {
+        String currentText = pantalla.getText().trim();
+        if (currentText.isEmpty()) {
+            mostrarAdvertencia("No hay nada para guardar en la memoria.");
+            return;
+        }
+
+        try {
+            // Convertir el número actual (reemplazando coma por punto si es necesario)
+            double currentNumber = modelo.convertirNumero(currentText.replace(',', '.'));
+            double memoryNumber;
+
+            if (memoria.isEmpty()) {
+                // Primera vez: se guarda el negativo del número actual en memoria.
+                memoryNumber = -currentNumber;
+            } else {
+                // Usos posteriores: se resta el número actual del valor guardado en memoria.
+                double storedNumber = modelo.convertirNumero(memoria.replace(',', '.'));
+                memoryNumber = storedNumber - currentNumber;
             }
 
             // Formatear el nuevo valor de memoria.

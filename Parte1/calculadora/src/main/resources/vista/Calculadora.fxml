@@ -33,6 +33,11 @@
                         <Font size="23.0" />
                      </font>
                   </Button>
+                  <Button fx:id="btn_MemoriaMenos" mnemonicParsing="false" onAction="#onClickRestarMemoria" prefHeight="56.0" prefWidth="70.0" text="M-">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Button>
                   <Button fx:id="btn_borrarMemoria" mnemonicParsing="false" onAction="#onClickBorrarMemoria" prefHeight="56.0" prefWidth="70.0" text="MC">
                      <font>
                         <Font size="23.0" />
@@ -46,11 +51,6 @@
                   <Button fx:id="btn_cambiarSigno" mnemonicParsing="false" onAction="#onClickCambiarSigno" prefHeight="56.0" prefWidth="70.0" text="+/-">
                      <font>
                         <Font size="24.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btn_Dolar" mnemonicParsing="false" onAction="#onClickDolar" prefHeight="56.0" prefWidth="70.0" text="\$">
-                     <font>
-                        <Font size="26.0" />
                      </font>
                   </Button>
                </children>
