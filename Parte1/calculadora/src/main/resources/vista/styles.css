@@ -1,25 +1,50 @@
-/* Fondo de la calculadora */
 .root {
-    -fx-background-color: #95DBD1; /* blanco*/
+    -fx-background-color: #F0D1D1;
 }
 
-/* Estilo general para los botones */
+/* Botones en azul oscuro */
 .button {
-    -fx-background-color: #E0F5F1; /* Verde degradado */
-    -fx-text-fill: black;         /* Texto blanco */
-    -fx-font-size: 14px;          /* Tamaño de fuente */
-    -fx-font-weight: bold;        /* Texto en negrita */
-    -fx-padding: 5px;             /* Espaciado interno */
-    -fx-background-radius: 25px;   /* Bordes redondeados */
-    -fx-cursor: hand;             /* Cursor tipo mano */
-    -fx-pref-width: 50px;         /* Ancho de los botones */
-    -fx-pref-height: 45px;        /* Alto de los botones */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 2, 2); /* Sombra sutil */
+    -fx-background-color: #B13C3C;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+    -fx-background-radius: 0px;
+    -fx-cursor: hand;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 45px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 2, 2);
+
 }
 
-#buttonConvertir{
-    -fx-background-color: #E0F5F1;
-    -fx-text-fill: black;
+/* Efecto hover para los botones */
+.button:hover {
+    -fx-background-color: white ;
+     -fx-text-fill: #B13C3C;
+}
+
+#buttonOperacion {
+    -fx-background-color: #3C53B0; /* Azul oscuro */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+    -fx-background-radius: 0px;
+    -fx-cursor: hand;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 45px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 2, 2);
+}
+
+#buttonOperacion:hover {
+    -fx-background-color: white ;
+    -fx-text-fill: #3C53B0;;
+}
+
+/* Botón "Convertir" con dimensiones distintas */
+#buttonConvertir {
+    -fx-background-color: #3C53B0;
+    -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 5px;
@@ -30,46 +55,87 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 2, 2);
 }
 
-/* Efecto hover para los botones */
-.button:hover {
-    -fx-background-color: #2A7A6E;
-    -fx-text-fill: white;
-}
-
-
-/* Efecto hover para los botones */
+/* Efecto hover para el botón "Convertir" */
 #buttonConvertir:hover {
-    -fx-background-color: #2A7A6E;
-    -fx-text-fill: white;
+    -fx-background-color: white;
+    -fx-text-fill: #3C53B0;
 }
 
-/* Estilo para los ComboBox */
+/* ComboBox (opcionalmente puedes ajustar a un color más oscuro si lo deseas) */
 .combo-box {
-    -fx-background-color:#E0F5F1;
-    -fx-text-fill: black;
+    -fx-background-color: #C3CAEA;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 5px;
     -fx-background-radius: 8px;
 }
 
-
 .combo-box .arrow-button {
-    -fx-background-color: #E0F5F1;
+    -fx-background-color: #C3CAEA;
 }
 
-/*
-.combo-box .arrow {
-    -fx-background-color: white;
+
+
+
+/* Estilo para la barra de menú completa */
+.menu-bar {
+    -fx-background-color: #0D3B66;  /* Fondo azul oscuro */
+    -fx-padding: 8px;
 }
 
-.combo-box:hover {
-    -fx-background-color: #2A7A6E;
+/* Estilo para el texto de los Menús (las etiquetas de cada menú en la barra) */
+.menu-bar .label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
 }
 
-.combo-box .list-cell {
-    -fx-background-color: white;
+/* Efecto hover para los Menús */
+.menu:hover {
+    -fx-background-color: #145380;  /* Un tono ligeramente más claro */
+}
+
+/* Estilo para los MenuItem (opciones dentro de cada menú) */
+.menu-item {
+    -fx-background-color: #0D3B66;  /* Fondo claro para buen contraste */
     -fx-text-fill: black;
+    -fx-font-size: 13px;
 }
 
-*/
+/* Efecto hover para los MenuItem */
+.menu-item:hover {
+    -fx-background-color: #B13C3C;  /* Se resalta con el mismo color que uno de tus botones */
+    -fx-text-fill: white;
+}
+
+
+/* Estilo para el TitledPane completo */
+.titled-pane {
+    -fx-background-color: linear-gradient(to bottom, #92B0D2, #D38B8B); /* Gradiente azulgrana clarito */
+    -fx-border-color: #0D3B66; /* Borde azul oscuro */
+    -fx-border-width: 2px;
+    -fx-text-fill: white;
+    -fx-background-insets: 0;
+}
+
+/* Estilo para la parte del título del TitledPane */
+.titled-pane > .title {
+    -fx-background-color: #0D3B66;  /* Fondo azul oscuro para el título */
+    -fx-text-fill: white;          /* Texto blanco */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px;
+}
+
+
+/* Estilo para el contenido del TitledPane */
+.titled-pane > .content {
+    -fx-background-color: #C3CAEA;  /* Fondo claro para el contenido */
+    -fx-padding: 10px;
+}
+
+/* Estilo para el ListView dentro del TitledPane */
+.list-view {
+    -fx-background-color: #C3CAEA;
+    -fx-control-inner-background: #C3CAEA;;
+}

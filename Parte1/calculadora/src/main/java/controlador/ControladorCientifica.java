@@ -27,7 +27,6 @@ public class ControladorCientifica {
     private double primerNumero = 0;
     private boolean esOperacionRealizada = false;
     private boolean esperandoSegundoOperando = false;
-    private boolean operacionLogaritmo = false;
     private double multiplicador = 1;
 
     private String historialOperacion = "";
@@ -657,6 +656,5 @@ public class ControladorCientifica {
         // Muestra "log(" en la pantalla para que el usuario ingrese el valor
         pantalla.setText("log(");
         operador = "logaritmo";
-        operacionLogaritmo = true;
     }
 }

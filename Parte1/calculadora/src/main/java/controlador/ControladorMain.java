@@ -100,8 +100,12 @@ public class ControladorMain implements Initializable {
 
     public void cargarConversor(ActionEvent actionEvent) {
         try {
-            Parent conversor = FXMLLoader.load(getClass().getResource("/vista/Conversor.fxml"));
-            borderPane.setCenter(conversor);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Conversor.fxml"));
+            // Carga la vista definida en el FXML
+            Parent normal = loader.load();
+
+            borderPane.setCenter(normal);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
