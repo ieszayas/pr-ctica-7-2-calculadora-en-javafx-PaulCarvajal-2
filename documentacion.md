@@ -69,4 +69,5 @@ El historial recoge todas las operaciones efectuadas en los modos de calculadora
 
 ## 6. Conclusión
 Esta aplicación de calculadora en JavaFX es una herramienta multifuncional que integra cálculos básicos y avanzados, conversión de monedas y graficado de funciones, todo en una interfaz amigable. La implementación del historial de operaciones añade un valor adicional, permitiendo gestionar y consultar las operaciones realizadas de forma sencilla.  
-*Documento elaborado por un estudiante de 2º año del Grado Superior en Desarrollo de Aplicaciones Multiplataformas.*
+
+*Documento elaborado por Paúl Carvajal*
